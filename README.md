@@ -53,7 +53,7 @@ One handy use for them is adding your own traversal methods. In Go, it is very c
     		.find(their_adjacent_selector(intersections));
     };
 
-It's also common to want to find a empty intersections given a selection:
+It's also common to want to find the empty intersections within a selection:
 
 		var empties = function (intersections) {
 			return intersections
@@ -109,8 +109,6 @@ License
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
-
----
 					
 [k]: http://github.com/raganwald/homoiconic/blob/master/2008-10-29/kestrel.markdown#readme
 [t]: http://github.com/raganwald/homoiconic/blob/master/2008-10-30/thrush.markdown#readme
