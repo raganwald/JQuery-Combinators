@@ -35,7 +35,7 @@ Here's an example from [a Go program][go]. The sample code calculates how many w
   			
 (`increment_captured_display.curry('white')` returns a function that updates the display of captured stones of the appropriate colour). Without the Kestrel, we'd have to assign things to extra variables and the code would be less "JQuery-like." With the Kestrel, we can treat our own functions as if they were built-in JQuery methods that chain.
 
-(The Kestrel is called "Tap" in Ruby, and [Jiayong Ou][jou] has written a kestrel called `tap`. I'd use it, if it wasn't for the fact that JQTouch also uses `tap` as a JQuery method for handling a tap event on mobile devices.)
+(The Kestrel is called "Tap" in Ruby, and [Jiayong Ou][jou] has written a kestrel called [tap][tap]. I'd use it, if it wasn't for the fact that JQTouch also uses `tap` as a JQuery method for handling a tap event on mobile devices.)
 
 The Thrush
 ---
