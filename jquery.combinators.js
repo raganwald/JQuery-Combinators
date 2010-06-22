@@ -25,12 +25,12 @@ THE SOFTWARE.
 
 ;(function ($) {
 	$.fn.K = function (fn) {
-		fn = Functional ? Functional.lambda(fn) : fn;
+		fn = typeof(Functional) != 'undefined' ? Functional.lambda(fn) : fn;
 		fn(this);
 		return this;
 	};
 	$.fn.T = function (fn) {
-		fn = Functional ? Functional.lambda(fn) : fn;
+		fn = typeof(Functional) != 'undefined' ? Functional.lambda(fn) : fn;
 		return fn(this);
 	};
 })(jQuery);
