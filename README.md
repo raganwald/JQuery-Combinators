@@ -137,7 +137,7 @@ Here's a real  example from [a Go program][go]. The sample code calculates how m
     			.addClass('changed was_black')
     			.end();
   			
-(`increment_captured_display.curry('white')` uses [Functional Javascript](http://osteele.com/sources/javascript/functional/ "Functional Javascript") to return a function that updates the display of captured stones of the appropriate colour). We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver.
+(`increment_captured_display.curry('white')` uses [Functional Javascript][fj] to return a function that updates the display of captured stones of the appropriate colour). We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver.
 
 **Conflicts**
 
@@ -185,6 +185,10 @@ See Also
 ---
 
 [Jiayong Ou][jou] has written a plugin for jQuery called [tap][tap]. It can handle extra arguments and does one thing--implement `tap`-- extremely well.
+
+*Secret Bonus! Shhhh!!*
+
+If you use jQuery Combinator's with Oliver Steele's excellent [Functional Javascript][fj], you can use string lambdas as well as functions. For example, you can write `$(...).T(".attr('id)")` instead of `$(...).T(function (el) {  return el.attr('id); })`. You don't have to include all of Functional Javascript to use string lambdas, just `to-function.js`. But as long as you're using string lambdas... Why not give the rest of his library a try?
 					
 [k]: http://github.com/raganwald/homoiconic/blob/master/2008-10-29/kestrel.markdown#readme
 [t]: http://github.com/raganwald/homoiconic/blob/master/2008-10-30/thrush.markdown#readme
@@ -193,3 +197,4 @@ See Also
 [tap]: http://github.com/jou/jquery.tap.js
 [raganwald]: http://reginald.braythwayt.com
 [joy]: http://github.com/raganwald/homoiconic/blob/master/2008-11-16/joy.md
+[fj]: http://osteele.com/sources/javascript/functional/ "Functional Javascript"
