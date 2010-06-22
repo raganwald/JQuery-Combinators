@@ -141,7 +141,7 @@ Here's a real  example from [a Go program][go]. The sample code calculates how m
 
 **Conflicts**
 
-Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery COmbinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` since `tap` will be reserved for handling touch events.
+Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery Combinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` since `tap` will be reserved for handling touch events.
 
 Combinators
 ---
@@ -154,7 +154,7 @@ To simplify the explanation radically, `T` and `K` are called combinators becaus
 
 For example, `T` reverses the order of two things. Think about it: Instead of writing `adjacent $(...)` we use `T` to write `$(...).T(adjacent)`. That rearrangement is very handy for making our code conform to jQuery style. Likewise, `K` leaves them in the same order but removes something. So if `update(...)` returns some text, `$(...).T(update) => "some text"`, but `$(...).K(update) => $(...)`. It's like `update` got dropped out of our expression. This ability to rearrange things is what makes them so useful for taking code that would normally have function calls sprinkled throughout it and rearranging it into a nice tree of method calls in jQuery style.
 
-Many other combinators exist, and they are all interesting with applications for functional and OO programmers. With combinators you can even get rd of parentheses in a programming language! If you aren't familiar with Combinatory Logic, I encourage you to follow the links to my posts about Kestrels and Thrushes, and better still do a little digging about Combinatory Logic in general. It's a rich, fascinating field of study that is so simple it's incredibly easy to pick up, and it leads naturally into functional and [concatenative][joy] languages.
+Many other combinators exist, and they are all interesting with applications for functional and OO programmers. With combinators you can even get rid of parentheses in a programming language! If you aren't familiar with Combinatory Logic, I encourage you to follow the links to my posts about Kestrels and Thrushes, and better still do a little digging about Combinatory Logic in general. It's a rich, fascinating field of study that is so simple it's incredibly easy to pick up, and it leads naturally into functional and [concatenative][joy] languages.
 
 License
 ---
@@ -180,6 +180,11 @@ License
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
+
+See Also
+---
+
+[Jiayong Ou][jou] has written a plugin for jQuery called [tap][tap]. It can handle extra arguments and does one thing--implement `tap`-- extremely well.
 					
 [k]: http://github.com/raganwald/homoiconic/blob/master/2008-10-29/kestrel.markdown#readme
 [t]: http://github.com/raganwald/homoiconic/blob/master/2008-10-30/thrush.markdown#readme
