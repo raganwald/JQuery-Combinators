@@ -3,14 +3,36 @@ jQuery Combinators
 
 *The jQuery plugin with the funny name and the useful methods*
 
-jQuery Combinators adds two very useful methods to every jQuery object: `tap` and `into`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
+jQuery Combinators adds two very useful methods to every jQuery object: `into` and `tap`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
 into
 ---
 
-`into` is another method that works with any jQuery object, however it returns whatever its function returns. Just as `tap` allows you to use your own functions to make jQuery methods that chain, `into` allows you to use your own functions to make jQuery methods.
+`into` is a method that works with any jQuery object. You pass a function to `.into`, and `into` passes its
+receiver to the function and returns whatever the function returns. In other words, `into` turns any function
+(including an anonymous function) into your own jQuery method.
 
-One handy use for them is adding your own DOM traverses. In the game Go, it is very common to want to find the intersections that are adjacent to some set of intersections on the board. You might define a function called `adjacent(...)` that does this exact thing:
+For example, you might have a Go program where every intersection has its own unique id on each board. If you want a selector for any set of intersections, you might write:
+
+    $.map(intersections, function (el) {
+      return '#' + $(el).attr('id');
+    }).join(',')
+      
+
+With `into`, you could then abstract that into a function:
+
+    var selectors = function (intersections) {
+      return $.map(intersections, function (el) {
+       return '#' + $(el).attr('id');
+      }).join(',');
+    }
+
+and then you can use that anywhere you like in jQuery style with `into`:
+
+    $(...)
+      .into(selectors)
+
+`into` can also be used with functions that transform one selection into another. This is equivalent to adding your own DOM traverses to jQuery. In the game Go, it is very common to want to find the intersections that are adjacent to some set of intersections on the board. You might define a function called `adjacent(...)` that does this exact thing:
 
     var adjacent = function(optional_board, intersections) {
     	if (intersections == undefined) {
@@ -53,7 +75,7 @@ With them, we can write:
 					})
 					.end();
 
-This is certainly more readable and "functional," but it isn't really the jQuery style. We could try to define "empties" and "adjacent" as jQuery methods, but those would wind up being defined for every jQuery object everywhere. Instead, let's use `into`:
+This is certainly more readable and "functional," but it isn't really the jQuery style. We could try to define "empties" and "adjacent" as jQuery methods, but those would wind up being defined for every jQuery object everywhere. Instead, let's use `into` as we did with our selectrs example:
 
 
 			board
@@ -66,7 +88,7 @@ This is certainly more readable and "functional," but it isn't really the jQuery
   					})
   					.end();
 
-`.into(empties)` makes our one-off functions "adjacent" and  "empties" into jQuery traversal methods just like jQuery's built-in `children` or `closest`.
+`.into(empties)` makes our one-off functions "adjacent" and "empties" into jQuery traversal methods just like jQuery's built-in `children` or `closest`.
 
 caveat
 ---
