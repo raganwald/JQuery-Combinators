@@ -75,7 +75,7 @@ With them, we can write:
 					})
 					.end();
 
-This is certainly more readable and "functional," but it isn't really the jQuery style. We could try to define "empties" and "adjacent" as jQuery methods, but those would wind up being defined for every jQuery object everywhere. Instead, let's use `into` as we did with our selectrs example:
+This is certainly more readable and "functional," but it isn't really the jQuery style. We could try to define "empties" and "adjacent" as jQuery methods, but those would wind up being defined for every jQuery object everywhere. Instead, let's use `into` as we did with our selectors example:
 
 
 			board
@@ -90,13 +90,11 @@ This is certainly more readable and "functional," but it isn't really the jQuery
 
 `.into(empties)` makes our one-off functions "adjacent" and "empties" into jQuery traversal methods just like jQuery's built-in `children` or `closest`.
 
-caveat
----
+**caveat**
 
 jQuery's built-in selection traverses do clever things with a stack so that you can call `.end()` to restore the previous selection. `into` does no such thing, although any `.find` or `.filter` you call inside of `.into` will work with jQuery's built-in stack. If you need to use `.end()`, you may find that `.into` produces unexpected results under some circumstances.
 
-T
----
+**T**
 
 `into` is known in some CS circles as the [Thrush][t] or `T` combinator. It is quite handy in languages like Ruby when you want to make chains of function calls into a chain of methods. Since jQuery's style is to prefer chains of methods, `into` is a natural fit with jQuery. If you prefer, you can also write `.T` instead of `.into`. Both are acceptable. Use `into` if you like a conversational, readable program that will be familiar to Ruby programmers. Use `T` if you and your team are comfortable with the more brief, academic terminology. Neither is superior to the other. `T` is not a snobbish, intellectually violent choice, and `into` isn't magically readable for anyone who has never seen it before.
 
@@ -145,12 +143,11 @@ Here's a real  example from [a Go program][go]. The sample code calculates how m
   			
 (`increment_captured_display.curry('white')` uses [Functional Javascript](http://osteele.com/sources/javascript/functional/ "Functional Javascript") to return a function that updates the display of captured stones of the appropriate colour). We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver.
 
-K
----
+**K**
 
 `tap` is known in combinatory logic circles as the "K Combinator" or [Kestrel][k]. For this reason, you can write `$(...).K(...)` as well as `$(...).tap(...)`. Like `into` and `T`, use what you prefer, they're both correct. But be consistent. What do I prefer? T and K. Not because they're fancy, but because they're shorter and I prefer that the functions they call get more prominence than the combinators. To me, they're punctuation dressed up in method's clothing.
 
-Conflicts
+**Conflicts**
 
 Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery COmbinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` since `tap` will be reserved for handling touch events.
 
