@@ -1,48 +1,16 @@
-JQuery Combinators
+jQuery Combinators
 ===
 
-JQuery Combinators adds the K and T combinators (or Kestrel and Thrush) to JQuery. These allow you to use your own functions as if they were built-in JQuery methods. This makes your code cleaner and more "JQuery-like."
+*The jQuery plugin with the funny name and the useful methods*
 
-The Kestrel
+jQuery Combinators adds two very useful methods to every jQuery object: `tap` and `into`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
+
+into
 ---
 
-The [Kestrel][k] or `K` combinator is a JQuery method that turns any function into a JQuery style "fluent" function that returns its argument. For example:
+`into` is another method that works with any jQuery object, however it returns whatever its function returns. Just as `tap` allows you to use your own functions to make jQuery methods that chain, `into` allows you to use your own functions to make jQuery methods.
 
-    foo
-      .K(function (bar) {
-        ...
-        return 'blitz';
-      })
-  
-    // => returns foo and not 'blitz'.
-  
-How is this useful for JQuery? Well, most of JQuery's own methods return "self" so that they can be chained. But sometimes you want to do something of your own and make it part of an existing JQuery chain. Now you can slip in your own function and get the exact same behaviour without having to make sure that every path through the function returns its argument.
-
-Here's an example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses the Kestrel to call a function that updates a display element:
-
-    board
-    	.find($.map(this_move['K'].split(','), '"#" + _'.lambda()).join(','))
-    		.filter('.white')
-    			.removeClass('white')
-    			.addClass('changed was_white')
-    			.K(increment_captured_display.curry('white'))
-    			.end()
-    		.filter('.black')
-    			.removeClass('black')
-    			.addClass('changed was_black')
-    			.K(increment_captured_display.curry('black'))
-    			.end();
-  			
-(`increment_captured_display.curry('white')` returns a function that updates the display of captured stones of the appropriate colour). Without the Kestrel, we'd have to assign things to extra variables and the code would be less "JQuery-like." With the Kestrel, we can treat our own functions as if they were built-in JQuery methods that chain.
-
-(The Kestrel is called "Tap" in Ruby, and [Jiayong Ou][jou] has written a kestrel called [tap][tap]. I'd use it, if it wasn't for the fact that JQTouch also uses `tap` as a JQuery method for handling a tap event on mobile devices.)
-
-The Thrush
----
-
-The [Thrush][t] or `T` combinator is a combinator like the Kestrel, however it returns whatever its function returns. Just as the Kestrel allows you to use your own functions to make JQuery methods that chain, the Thrush allows you to use your own functions to make JQuery methods that return a different result.
-
-One handy use for them is adding your own traversal methods. In Go, it is very common to want to find the intersections that are adjacent to some set of intersections on the board. `adjacent(...)` does this exact thing:
+One handy use for them is adding your own DOM traverses. In the game Go, it is very common to want to find the intersections that are adjacent to some set of intersections on the board. You might define a function called `adjacent(...)` that does this exact thing:
 
     var adjacent = function(optional_board, intersections) {
     	if (intersections == undefined) {
@@ -59,8 +27,8 @@ It's also common to want to find the empty intersections within a selection:
 			return intersections
 				.filter('.intersection:not(.black):not(.white)');
 		};
-    
-Now we can treat `adjacent` and `empties` just like `.parents()` or anything else. One rule of Go is that any empty intersection that is adjacent to at least one other empty intersection is playable. Here's how that code looks without the Thrush:
+		
+One rule of Go is that any empty intersection that is adjacent to at least one other empty intersection is playable. Here's how that code looks without our two functions:
 
 			board
 				.find('.intersection:not(.black):not(.white)')
@@ -74,16 +42,95 @@ Now we can treat `adjacent` and `empties` just like `.parents()` or anything els
 					})
 					.end();
 
-With the Thrush, we can write:
+With them, we can write:
 
-			board
-				.find('.intersection:not(.black):not(.white)')
-					.each(function (i, el) {
+			empties(board.find('.intersection'))
+			  .each(function (i, el) {
 						var intersection = $(el);
-						if (0 != intersection.T(adjacent).T(empties).size())
-							intersection.addClass('at_liberty');
+						var adjacent_empties = 
+						if (0 != empties(adjacent(intersection)).size())
+							intersection.addClass('playable_black playable_white');
 					})
 					.end();
+
+This is certainly more readable and "functional," but it isn't really the jQuery style. We could try to define "empties" and "adjacent" as jQuery methods, but those would wind up being defined for every jQuery object everywhere. Instead, let's use `into`:
+
+
+			board
+				.find('.intersection')
+				  .into(empties)
+  					.each(function (i, el) {
+  						var intersection = $(el);
+  						if (0 != intersection.into(adjacent).into(empties).size())
+  							intersection.addClass('playable_black playable_white');
+  					})
+  					.end();
+
+`.into(empties)` makes our one-off functions "adjacent" and  "empties" into jQuery traversal methods just like jQuery's built-in `children` or `closest`.
+
+caveat
+---
+
+jQuery's built-in selection traverses do clever things with a stack so that you can call `.end()` to restore the previous selection. `into` does no such thing, although any `.find` or `.filter` you call inside of `.into` will work with jQuery's built-in stack. If you need to use `.end()`, you may find that `.into` produces unexpected results under some circumstances.
+
+T
+---
+
+`into` is known in some CS circles as the [Thrush][t] or `T` combinator. It is quite handy in languages like Ruby when you want to make chains of function calls into a chain of methods. Since jQuery's style is to prefer chains of methods, `into` is a natural fit with jQuery. If you prefer, you can also write `.T` instead of `.into`. Both are acceptable. Use `into` if you like a conversational, readable program that will be familiar to Ruby programmers. Use `T` if you and your team are comfortable with the more brief, academic terminology. Neither is superior to the other. `T` is not a snobbish, intellectually violent choice, and `into` isn't magically readable for anyone who has never seen it before.
+
+tap
+---
+
+Although writing your own selection traverses is a common pattern in jQuery, it's also very common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. For example:
+
+    $(...)
+      .removeClass('foo')
+      .addClass('bar blitz')
+      .each(function (i, el) {
+        ...
+      })
+      .end();
+
+You can use `into` for this, however you will have to make sure that any function called by `into` returns its receiver. Failing to do this can produce unexpected results. To avoid these erros and to make your code clearer, you can use `tap` instead of `into`.
+
+`tap` is a jQuery method that turns any function into a jQuery style "fluent" function that returns its argument. For example:
+
+    $('...')
+      .tap(function (bar) {
+        ...
+        return 'blitz';
+      })
+  
+    // => passes $('...') to the function and always returns $('...') and not 'blitz'.
+  
+Here's a real  example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses the Kestrel to call a function that updates a display element:
+
+    var increment_captured_white_stones = increment_captured_display.curry('white')
+    var increment_captured_black_stones = increment_captured_display.curry('black');
+
+    board
+    	.find($.map(this_move['K'].split(','), '"#" + _'.lambda()).join(','))
+    		.filter('.white')
+    			.tap(increment_captured_white_stones)
+    			.removeClass('white')
+    			.addClass('changed was_white')
+    			.end()
+    		.filter('.black')
+    			.tap(increment_captured_black_stones)
+    			.removeClass('black')
+    			.addClass('changed was_black')
+    			.end();
+  			
+(`increment_captured_display.curry('white')` uses [Functional Javascript](http://osteele.com/sources/javascript/functional/ "Functional Javascript") to return a function that updates the display of captured stones of the appropriate colour). We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver.
+
+K
+---
+
+`tap` is known in combinatory logic circles as the "K Combinator" or [Kestrel][k]. For this reason, you can write `$(...).K(...)` as well as `$(...).tap(...)`. Like `into` and `T`, use what you prefer, they're both correct. But be consistent. What do I prefer? T and K. Not because they're fancy, but because they're shorter and I prefer that the functions they call get more prominence than the combinators. To me, they're punctuation dressed up in method's clothing.
+
+Conflicts
+
+Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery COmbinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` since `tap` will be reserved for handling touch events.
 
 License
 ---
