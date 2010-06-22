@@ -29,8 +29,12 @@ THE SOFTWARE.
 		fn(this);
 		return this;
 	};
+	if (typeof($.fn.tap) == 'undefined')
+		$.fn.tap = $.fn.K;
 	$.fn.T = function (fn) {
 		fn = typeof(Functional) != 'undefined' ? Functional.lambda(fn) : fn;
 		return fn(this);
 	};
+	if (typeof($.fn.into) == 'undefined')
+		$.fn.into = $.fn.T;
 })(jQuery);
