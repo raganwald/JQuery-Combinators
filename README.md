@@ -12,83 +12,59 @@ into
 receiver to the function and returns whatever the function returns. In other words, `into` turns any function
 (including an anonymous function) into your own jQuery method. `into` also handy in OO languages like Ruby when you want to make chains of function calls into a chain of methods. Since jQuery's style is to prefer chains of methods, `into` is a natural fit with jQuery.
 
-For example, you might have a Go program where every intersection has its own unique id on each board. If you want a selector for any set of intersections, you might write:
+For example, you might have a function that turns a jQuery selection into a selector string that selects the elements by id:
 
-    $.map(intersections, function (el) {
-      return '#' + $(el).attr('id');
-    }).join(',')
-      
-
-With `into`, you could then abstract that into a function:
-
-    var selectors = function (intersections) {
-      return $.map(intersections, function (el) {
+    var selectors = function (selection) {
+      return $.map(selection, function (el) {
        return '#' + $(el).attr('id');
       }).join(',');
-    }
-
-and then you can use that anywhere you like in jQuery style with `into`:
+    };
+    
+With `into`, you can use that anywhere you like in jQuery style:
 
     $(...)
       .into(selectors) // returns a selector string
 
-`into` can also be used with functions that transform one selection into another. This is equivalent to adding your own DOM traverses to jQuery. In the game Go, it is very common to want to find the intersections that are adjacent to some set of intersections on the board. You might define a function called `adjacent(...)` that does this exact thing:
+Now your function works just like one of jQuery's built-in methods. You can do this with any function that takes a jQuery object as its parameter, even an anonymous function. `into` is especially useful with functions that transform one selection into another. This is equivalent to adding your own DOM traverses and filters to jQuery. jQuery's built-in traverses like `closest` or `siblings` are all general-purpose. But your specific web application will probably need its own domain-specific traverses and filters.
 
-    var adjacent = function(optional_board, intersections) {
-    	if (intersections == undefined) {
-    		intersections = optional_board;
-    		optional_board = intersections.first().closest('.board');
-    	}
-    	return optional_board
-    		.find(their_adjacent_selector(intersections));
+In the game [Go][go], it is very common to want to find the intersections that are adjacent to some set of intersections on the board. The intersections are arranged in rows, so while `previous` and `next` an find adjacent intersections in the same row, you need something else to find the intersections above and below an intersection. Furthermore, Go's rules often require working with the intersections that are adjacent to a group of intersections on the board.
+
+Without boring you with the exact code, let's assume you write a function to find the intersections adjacent to a selection of intersections:
+
+    var adjacent = function (selection_of_intersections) {
+    	...
     };
 
-It's also common to want to find the empty intersections within a selection:
+Now you can use `adjacent` just like any other jQuery traversal:
+
+    $(...)
+      .into(adjacent)
+
+It's also common to want to find the empty intersections within a selection. This code is short enough to repeat here:
 
 		var empties = function (intersections) {
 			return intersections
 				.filter('.intersection:not(.black):not(.white)');
 		};
 		
-One rule of Go is that any empty intersection that is adjacent to at least one other empty intersection is playable. Here's how that code looks without our two functions:
+And again you can use `empties` just like a jQuery filter:
 
-			board
-				.find('.intersection:not(.black):not(.white)')
-					.each(function (i, el) {
-						var intersection = $(el);
-						if (0 != board
-							.find(adjacents[intersection.attr('id')])
-								.filter('.intersection:not(.black):not(.white)')
-									.size())
-							intersection.addClass('playable_black playable_white');
-					})
-					.end();
+    $(...)
+      ..into(empties)
+      
+Or combine them to find the number of liberties (empty adjacent intersections):
 
-With them, we can write:
+    $(...)
+      .into(adjacent)
+        .into(adjacent)
+      
+While you're at it, create your own predicate:
 
-			empties(board.find('.intersection'))
-			  .each(function (i, el) {
-						var intersection = $(el);
-						var adjacent_empties = 
-						if (0 != empties(adjacent(intersection)).size())
-							intersection.addClass('playable_black playable_white');
-					})
-					.end();
-
-This is certainly more readable and "functional," but it isn't really the jQuery style. The core expression that counts the number of empty adjacent intersections is `empties(adjacent(intersection)).size()`. It mixes functions and methods, whereas jQuery prefers methods. We could try to define "empties" and "adjacent" as jQuery methods, but those would wind up being defined for every jQuery object everywhere. Instead, let's use `into` as we did with our selectors example:
-
-
-			board
-				.find('.intersection')
-				  .into(empties)
-  					.each(function (i, el) {
-  						var intersection = $(el);
-  						if (0 != intersection.into(adjacent).into(empties).size())
-  							intersection.addClass('playable_black playable_white');
-  					})
-  					.end();
-
-Now our core expression reads `intersection.into(adjacent).into(empties).size()` which reads like a native jQuery expression, because `into` makes our one-off functions "adjacent" and "empties" into jQuery traversal methods just like jQuery's built-in `children` or `closest`. 
+    var hasLiberties = function (selection) {
+      return selection.into(adjacent).into(empties).size() > 0;
+    };
+    
+In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
 
 **caveat**
 
@@ -97,17 +73,7 @@ jQuery's built-in selection traverses do clever things with a stack so that you 
 tap
 ---
 
-Although writing your own selection traverses is a common pattern in jQuery, it's also very common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. For example:
-
-    $(...)
-      .removeClass('foo')
-      .addClass('bar blitz')
-      .each(function (i, el) {
-        ...
-      })
-      .end();
-
-You can use `into` for this, however you will have to make sure that any function called by `into` returns its receiver. Failing to do this can produce unexpected results. To avoid these errors and to make your code clearer, you can use `tap` instead of `into`.
+Although writing your own selection traverses is a common pattern in jQuery, it's also very common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. You can use `into` for this, however you will have to make sure that any function called by `into` returns its receiver. Failing to do this can produce unexpected results. To avoid these errors and to make your code clearer, you can use `tap` instead of `into`.
 
 `tap` is a jQuery method that turns any function into a jQuery style "fluent" function that returns its argument. For example:
 
@@ -119,7 +85,7 @@ You can use `into` for this, however you will have to make sure that any functio
   
     // => passes $('...') to the function and always returns $('...') and not 'blitz'.
   
-Here's a real  example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses `tap` to call a function that updates a display element:
+Here's a real example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses `tap` to call a function that updates a display element:
 
     var increment_captured_white_stones = increment_captured_display.curry('white')
     var increment_captured_black_stones = increment_captured_display.curry('black');
