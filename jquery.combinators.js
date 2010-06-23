@@ -1,3 +1,4 @@
+
 /*
 The MIT License
 
@@ -22,19 +23,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-
-;(function ($) {
-	$.fn.K = function (fn) {
-		fn = typeof(Functional) != 'undefined' ? Functional.lambda(fn) : fn;
-		fn(this);
+(function($,undefined){
+	
+	var jq_fn = $.fn,
+		aps = Array.prototype.slice;
+	
+	jq_fn.K = function( fn ) {
+		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
+		fn.apply( this, aps.call( arguments, 1 ) );
 		return this;
 	};
-	if (typeof($.fn.tap) == 'undefined')
-		$.fn.tap = $.fn.K;
-	$.fn.T = function (fn) {
-		fn = typeof(Functional) != 'undefined' ? Functional.lambda(fn) : fn;
-		return fn(this);
+	
+	if ( jq_fn.tap === undefined ) {
+		jq_fn.tap = jq_fn.K;
+	}
+	
+	jq_fn.T = function( fn ) {
+		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
+		return fn.apply( this, aps.call( arguments, 1 ) );
 	};
-	if (typeof($.fn.into) == 'undefined')
-		$.fn.into = $.fn.T;
+	
+	if ( jq_fn.into === undefined ) {
+		jq_fn.into = jq_fn.T;
+	}
+	
 })(jQuery);
