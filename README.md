@@ -33,12 +33,13 @@ Without boring you with the exact code, let's assume you write a function to fin
 
     var adjacent = function (selection_of_intersections) {
     	...
+    	return adjacent_intersections;
     };
 
 Now you can use `adjacent` just like any other jQuery traversal:
 
     $(...)
-      .into(adjacent)
+      .into(adjacent) // returns a selection of adjacent intersections
 
 It's also common to want to find the empty intersections within a selection. This code is short enough to repeat here:
 
@@ -50,7 +51,7 @@ It's also common to want to find the empty intersections within a selection. Thi
 And again you can use `empties` just like a jQuery filter:
 
     $(...)
-      ..into(empties)
+      .into(empties) // returns a selection of empty intersections
       
 Or combine them to find the number of liberties (empty adjacent intersections):
 
@@ -58,13 +59,7 @@ Or combine them to find the number of liberties (empty adjacent intersections):
       .into(adjacent)
         .into(adjacent)
       
-While you're at it, create your own predicate:
-
-    var hasLiberties = function (selection) {
-      return selection.into(adjacent).into(empties).size() > 0;
-    };
-    
-In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
+They compose and commute just like jQuery's built-in methods, In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
 
 **caveat**
 
@@ -103,11 +98,11 @@ Here's a real example from [a Go program][go]. The sample code calculates how ma
     			.addClass('changed was_black')
     			.end();
   			
-(`increment_captured_display.curry('white')` uses [Functional Javascript][fj] to return a function that updates the display of captured stones of the appropriate colour). We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver.
+We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver. With `tap`, we are sure that we will get "self" back whether the function returns something else or even nothing at all.
 
 **Conflicts**
 
-Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery Combinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` since `tap` will be reserved for handling touch events.
+Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery Combinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` (see below) since `tap` will be reserved for handling touch events. I'm not aware of any other library defining `into`, but if it does, jQuery Combinators will not redefine `into` and you will have to use `T`.
 
 Combinators
 ---
