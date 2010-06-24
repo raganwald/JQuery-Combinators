@@ -3,6 +3,7 @@
 The MIT License
 
 Copyright (c) 2010 Reginald Braithwaite http://reginald.braythwayt.com
+and Ben Alman http://benalman.com/
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
