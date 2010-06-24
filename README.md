@@ -57,7 +57,7 @@ Or combine them to find the number of liberties (empty adjacent intersections):
 
     $(...)
       .into(adjacent)
-        .into(adjacent)
+        .into(empties)
       
 They compose and commute just like jQuery's built-in methods, In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
 
