@@ -84,23 +84,26 @@ To avoid these errors and to make your code clearer, you can use `tap` instead o
   
 Here's a real example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses `tap` to call a function that updates a display element:
 
-    var increment_captured_white_stones = increment_captured_display.curry('white')
-    var increment_captured_black_stones = increment_captured_display.curry('black');
+    var increment_captured_display = function (captured_stones, colour) {
+      // ...
+    };
 
     board
     	.find($.map(this_move['K'].split(','), '"#" + _'.lambda()).join(','))
     		.filter('.white')
-    			.tap(increment_captured_white_stones)
+    			.tap(increment_captured_display, 'white')
     			.removeClass('white')
     			.addClass('changed was_white')
     			.end()
     		.filter('.black')
-    			.tap(increment_captured_black_stones)
+    			.tap(increment_captured_display, 'black')
     			.removeClass('black')
     			.addClass('changed was_black')
     			.end();
   			
 We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver. With `tap`, we are sure that we will get "self" back whether the function returns something else or even nothing at all.
+
+Also, did you notice that we passed the function and another parameter to `.tap`? With all of jQuery Combinators, extra parameters will be passed to the function along with the selection. Functional programmers will tell you that this isn't strictly necessary, however `.curry` isn't to everybody's taste. 
 
 **Conflicts**
 
