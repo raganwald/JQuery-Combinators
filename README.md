@@ -5,6 +5,8 @@ jQuery Combinators
 
 jQuery Combinators adds two very useful methods to every jQuery object: `into` and `tap`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
+*new*: Now with chocolatey-good `ergo` baked into every download!
+
 into
 ---
 
@@ -102,7 +104,47 @@ We could have used `into` to make this code clean, but then we'd have to fiddle 
 
 **Conflicts**
 
-Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery Combinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` (see below) since `tap` will be reserved for handling touch events. I'm not aware of any other library defining `into`, but if it does, jQuery Combinators will not redefine `into` and you will have to use `T`.
+Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery Combinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` (see below) since `tap` will be reserved for handling touch events. I'm not aware of any other library defining `into`, but if it does, jQuery Combinators will not redefine `into` and you will have to use `T` instead.
+
+ergo
+---
+
+Ruby programmers are familiar with [andand][andand] and the closely related [try][try]. These allow for conditional method invocation: In Ruby, you sometimes want to invoke a method provided the receiver is not null. This is important, because most methods raise an exception when invoked on a null object. If you use `.andand` or `.try`, you can send a method to an object and nothing happens if it's null.
+
+jQuery's built-in methods already work like this. If you have an empty selection, you can invoke all kinds of jQuery methods on it, and nothing happens if your selection is empty. For example, `$('.aBcXyZ').addClass('fubar')` does absolutely nothing if you don't have any elements of class `aBcXyZ`. That's great, and it keeps jQuery code clean: You don't have to litter jQuery code with `if (selection.length)` checks everywhere.
+
+But what about methods you create with `.tap`? If all they do is call jQuery's built-in methods, they will work just fine. But once in a while, you might write a function containing some code that you don't want executed on an empty selection. For example:
+
+    var updated_killed_count = function (killed_stones) {
+      // ...
+      // some code updating a counter on the board
+      // ...
+      alert("Congratulations, you have killed " + killed_stones + ' stone(s).');
+    }
+    
+This won't work very well if there are no killed stones:
+
+![Congratulations](congratulations.png)
+
+With `tap`, you would have to wrap your function call in a conditional to avoid an embarassment:
+
+    board
+      .find('.killed')
+        .tap(function (killed_stones) {
+          if (killed_stones.length) updated_killed_count(killed_stones);
+        })
+        .removeClass('black white');
+      
+This comes up so often, jQuery Combinators provides a special form of `tap` called `ergo` that bakes the selection check right in:
+
+    board
+      .find('.killed')
+        .ergo(updated_killed_count)
+        .removeClass('black white');
+
+Getting rid of the conditional makes the code much cleaner, and it saves you from having to add conditional checks to your functions.
+
+There's another, more subtle benefit. If you use jQuery Combinator with Oliver Steele's excellent [Functional Javascript][fj], you already can use string lambdas as well as functions. For example, you can write `$(...).T(".attr('id)")` instead of `$(...).T(function (el) {  return el.attr('id); })`. The limitation of String Lambdas is that they work with functions that are expressions. You can't write `.tap('if (_.length) alert("congratulations, you killed "+_.length+" stones")')`. But you *can* write `.ergo('alert("congratulations, you killed "+_.length+" stones")')`. Aha!
 
 Combinators
 ---
@@ -147,9 +189,6 @@ See Also
 
 [Jiayong Ou][jou] has written a plugin for jQuery called [tap][tap]. It can handle extra arguments and does one thing--implement `tap`-- extremely well.
 
-*Secret Bonus! Shhhh!!*
-
-If you use jQuery Combinator's with Oliver Steele's excellent [Functional Javascript][fj], you can use string lambdas as well as functions. For example, you can write `$(...).T(".attr('id)")` instead of `$(...).T(function (el) {  return el.attr('id); })`. You don't have to include all of Functional Javascript to use string lambdas, just `to-function.js`. But as long as you're using string lambdas... Why not give the rest of his library a try?
 					
 [k]: http://github.com/raganwald/homoiconic/blob/master/2008-10-29/kestrel.markdown#readme
 [t]: http://github.com/raganwald/homoiconic/blob/master/2008-10-30/thrush.markdown#readme
@@ -159,3 +198,5 @@ If you use jQuery Combinator's with Oliver Steele's excellent [Functional Javasc
 [raganwald]: http://reginald.braythwayt.com
 [joy]: http://github.com/raganwald/homoiconic/blob/master/2008-11-16/joy.md
 [fj]: http://osteele.com/sources/javascript/functional/ "Functional Javascript"
+[andand]: http://github.com/raganwald/andand
+[try]: http://ozmm.org/posts/try.html
