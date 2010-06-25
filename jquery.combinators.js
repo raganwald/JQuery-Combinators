@@ -35,14 +35,16 @@ THE SOFTWARE.
 		return this;
 	};
 	
-	if ( jq_fn.tap === undefined ) {
-		jq_fn.tap = jq_fn.K;
-	}
-	
 	jq_fn.T = function( fn ) {
 		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
 		return fn.apply( this, aps.call( arguments, 1 ) );
 	};
+	
+	// aliases
+	
+	if ( jq_fn.tap === undefined ) {
+		jq_fn.tap = jq_fn.K;
+	}
 	
 	if ( jq_fn.into === undefined ) {
 		jq_fn.into = jq_fn.T;
