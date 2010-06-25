@@ -129,7 +129,7 @@ This won't work very well if there are no killed stones:
 
 ![Congratulations](http://github.com/raganwald/JQuery-Combinators/raw/master/congratulations.png)
 
-With `tap`, you would have to wrap your function call in a conditional to avoid an embarassment:
+With `tap`, you would have to wrap your function call in a conditional to avoid an embarrassment:
 
     board
       .find('.killed')
