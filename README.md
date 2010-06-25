@@ -68,9 +68,9 @@ jQuery's built-in selection traverses do clever things with a stack so that you 
 tap
 ---
 
-Although writing your own selection traverses is a common pattern in jQuery, it's also very common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. You can use `into` for this, however you will have to make sure that any function called by `into` returns its receiver. Failing to do this can produce unexpected results. To avoid these errors and to make your code clearer, you can use `tap` instead of `into`.
+Although writing your own selection traverses is a common pattern in jQuery, it's also very common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. You can use `into` for this, however you will have to make sure that any function called by `into` returns its receiver. Failing to do this can produce unexpected results.
 
-`tap` is a jQuery method that turns any function into a jQuery style "fluent" function that returns its argument. For example:
+To avoid these errors and to make your code clearer, you can use `tap` instead of `into`. `tap` turns any function into a jQuery style "fluent" function that returns its argument. For example:
 
     $('...')
       .tap(function (bar) {

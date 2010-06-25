@@ -27,17 +27,25 @@ THE SOFTWARE.
 (function($,undefined){
 	
 	var jq_fn = $.fn,
-		aps = Array.prototype.slice;
+		aps = Array.prototype.slice,
+		noop = function () {};
 	
 	jq_fn.K = function( fn ) {
 		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
-		fn.apply( this, aps.call( arguments, 1 ) );
+		fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
+		return this;
+	};
+	
+	jq_fn.ergo = function( fn, optionalUnless ) {
+		var whichFn = this.length ? fn : (optionalUnless ? optionalUnless : noop);
+		whichFn = typeof Functional != 'undefined' ? Functional.lambda( whichFn ) : whichFn;
+		whichFn.apply( this, [this].concat(aps.call( arguments, 1 )) );
 		return this;
 	};
 	
 	jq_fn.T = function( fn ) {
 		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
-		return fn.apply( this, aps.call( arguments, 1 ) );
+		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
 	};
 	
 	// aliases
