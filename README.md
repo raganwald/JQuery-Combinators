@@ -142,7 +142,7 @@ This comes up so often, jQuery Combinators provides a special form of `tap` call
         .ergo(updated_killed_count)
         .removeClass('black white');
 
-Getting rid of the conditional makes the code much cleaner, and it saves you from having to add conditional checks to your functions.
+Like `tap`, `ergo` always returns its receiver. The difference is that `ergo` only invokes the function if the selection isn't empty. Getting rid of the conditional makes the code much cleaner, and it saves you from having to add conditional checks to your functions.
 
 There's another, more subtle benefit. If you use jQuery Combinator with Oliver Steele's excellent [Functional Javascript][fj], you already can use string lambdas as well as functions. For example, you can write `$(...).T(".attr('id)")` instead of `$(...).T(function (el) {  return el.attr('id); })`. The limitation of String Lambdas is that they work with functions that are expressions. You can't write `.tap('if (_.length) alert("congratulations, you killed "+_.length+" stones")')`. But you *can* write `.ergo('alert("congratulations, you killed "+_.length+" stones")')`. Aha!
 
