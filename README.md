@@ -1,11 +1,11 @@
 jQuery Combinators
 ===
 
-*The jQuery plugin with the funny name and the useful methods*
+*The jQuery plugin with the academic name and the pragmatic methods*
 
 jQuery Combinators adds two very useful methods to every jQuery object: `into` and `tap`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
-*new*: Now with chocolatey-good `ergo` baked into every download!
+**NEW**: Now with *chocolatey-good* `ergo` and *smooth caramel* `when` baked into every download!
 
 into
 ---
@@ -149,7 +149,40 @@ Like `tap`, `ergo` always returns its receiver. The difference is that `ergo` on
 
 There's another, more subtle benefit. If you use jQuery Combinator with Oliver Steele's excellent [Functional Javascript][fj], you already can use string lambdas as well as functions. For example, you can write `$(...).T(".attr('id)")` instead of `$(...).T(function (el) {  return el.attr('id); })`. The limitation of String Lambdas is that they work with functions that are expressions. You can't write `.tap('if (_.length) alert("congratulations, you killed "+_.length+" stones")')`. But you *can* write `.ergo('alert("congratulations, you killed "+_.length+" stones")')`. Aha!
 
-Combinators
+when
+---
+
+Once you start using `into`, it'll only be a matter of time before you start taking code like this:
+
+    var group = board.find(...);
+    
+    if (group.into(adjacent).into(empties).length == 1)
+      group
+        .removeClass('dead')
+        .addClass('atari');
+
+And wondering whether there's some way to get rid of the clumsy `if` statement so that everything can chain in fluent jQuery style. You could do something by stuffing the `if` inside of a function with `into`, but the cure would be worse than the disease. But "Do something with a selection when such-and-such an expression is truthy" is common enough that jQuery Combinators provides a method for this special case called `when`.
+
+`when` is a special filter that passes your selection to a function. If the function returns truthy, `when` keeps your selection. If the function returns falsy, when reduces the selection to an empty selection. So the code above could be written like this:
+
+    board
+      .find(...)
+        .when(function(group) { return group.into(adjacent).into(empties).length == 1; })
+          .removeClass('dead')
+          .addClass('atari');
+
+`when` is really handy with string lambdas. For example, here's how to mark the intersection that would "kill" a group in atari:
+
+    board
+      .find(...)
+        .into(adjacent)
+          .into(empties)
+            .when('.length == 1')
+              .addClass('kills_a_group');
+              
+This code finds a group, uses `adjacent` and `empties` to traverse to the adjacent empty intersections, then passes that selection along to add the class `'kills_a_group'` if its length is one. `when` can be combined with `ergo` to replace complex if statements with chains of method calls in jQuery style.
+
+Why is this plugin called jQuery "Combinators?"
 ---
 
 `into` is known in some CS circles as the [Thrush][t] or `T` combinator.  For that reason, you can also write `.T` instead of `.into` with jQuery Combinators. Both `.into` and `.T` work, and both are acceptable. Prefer `into` if you like a conversational program that will be familiar to Ruby programmers. Prefer `T` if you and your team are comfortable with the more brief, academic terminology. Neither is superior to the other. `T` is not a snobbish, intellectually violent choice, and `into` isn't "instantly readable" for anyone who has never seen it before.

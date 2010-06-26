@@ -30,11 +30,20 @@ THE SOFTWARE.
 		aps = Array.prototype.slice,
 		noop = function () {};
 	
+	// combinators
+	
+	jq_fn.T = function( fn ) {
+		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
+		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
+	};
+	
 	jq_fn.K = function( fn ) {
 		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
 		fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
 		return this;
 	};
+	
+	// variations
 	
 	jq_fn.ergo = function( fn, optionalUnless ) {
 		var whichFn = this.length ? fn : (optionalUnless ? optionalUnless : noop);
@@ -43,9 +52,9 @@ THE SOFTWARE.
 		return this;
 	};
 	
-	jq_fn.T = function( fn ) {
+	jq_fn.when = function (fn) {
 		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
-		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
+		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) ) ? this.filter('*') : this.filter('not(*)');
 	};
 	
 	// aliases
