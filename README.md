@@ -18,7 +18,7 @@ For example, you might have a function that turns a jQuery selection into a sele
 
     var selectors = function (selection) {
       return $.map(selection, function (el) {
-       return '#' + $(el).attr('id');
+       return '#' + el.id;
       }).join(',');
     };
     
@@ -61,7 +61,14 @@ Or combine them to find the number of liberties (empty adjacent intersections):
       .into(adjacent)
         .into(empties)
       
-They compose and commute just like jQuery's built-in methods, In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
+They compose and commute just like jQuery's built-in methods. If you use [Functional Javascript][fj], you can use `compose` directly:
+
+    var liberties = Functional.compose(empties, adjacent);
+    
+    $(...)
+      .into(liberties)
+
+In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
 
 **caveat**
 
@@ -152,22 +159,22 @@ There's another, more subtle benefit. If you use jQuery Combinator with Oliver S
 when
 ---
 
-Once you start using `into`, it'll only be a matter of time before you start taking code like this:
+Once you start using `into`, it'll only be a matter of time before you look at code like this:
 
     var group = board.find(...);
     
-    if (group.into(adjacent).into(empties).length == 1)
+    if (group.into(liberties).length == 1)
       group
         .removeClass('dead')
         .addClass('atari');
 
-And wondering whether there's some way to get rid of the clumsy `if` statement so that everything can chain in fluent jQuery style. You could do something by stuffing the `if` inside of a function with `into`, but the cure would be worse than the disease. But "Do something with a selection when such-and-such an expression is truthy" is common enough that jQuery Combinators provides a method for this special case called `when`.
+And wonder whether there's some way to get rid of the clumsy `if` statement so that everything can chain in fluent jQuery style. You could do something by stuffing the `if` inside of a function with `into`, but the cure would be worse than the disease. But "Do something with a selection when such-and-such an expression is truthy" is common enough that jQuery Combinators provides a method for this special case called `when`.
 
 `when` is a special filter that passes your selection to a function. If the function returns truthy, `when` keeps your selection. If the function returns falsy, when reduces the selection to an empty selection. So the code above could be written like this:
 
     board
       .find(...)
-        .when(function(group) { return group.into(adjacent).into(empties).length == 1; })
+        .when(function(group) { return group.into(liberties).length == 1; })
           .removeClass('dead')
           .addClass('atari');
 
@@ -175,10 +182,9 @@ And wondering whether there's some way to get rid of the clumsy `if` statement s
 
     board
       .find(...)
-        .into(adjacent)
-          .into(empties)
-            .when('.length == 1')
-              .addClass('kills_a_group');
+        .into(liberties)
+          .when('.length == 1')
+            .addClass('kills_a_group');
               
 This code finds a group, uses `adjacent` and `empties` to traverse to the adjacent empty intersections, then passes that selection along to add the class `'kills_a_group'` if its length is one. `when` can be combined with `ergo` to replace complex if statements with chains of method calls in jQuery style.
 
@@ -201,6 +207,7 @@ License
     The MIT License
 
     Copyright (c) 2010 Reginald Braithwaite http://reginald.braythwayt.com
+    with contributions from Ben Alman
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -223,8 +230,7 @@ License
 See Also
 ---
 
-[Jiayong Ou][jou] has written a plugin for jQuery called [tap][tap]. It can handle extra arguments and does one thing--implement `tap`-- extremely well.
-
+[Jiayong Ou][jou] has also written a plugin for jQuery called [tap][tap].
 					
 [k]: http://github.com/raganwald/homoiconic/blob/master/2008-10-29/kestrel.markdown#readme
 [t]: http://github.com/raganwald/homoiconic/blob/master/2008-10-30/thrush.markdown#readme
