@@ -3,9 +3,48 @@ jQuery Combinators
 
 *The jQuery plugin with the academic name and the pragmatic methods*
 
-jQuery Combinators adds two very useful methods to every jQuery object: `into` and `tap`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
+jQuery Combinators adds four very useful methods to every jQuery object: `into`, `tap`, `ergo` and `when`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
-**NEW**: Now with *chocolatey-good* `ergo` and *smooth caramel* `when` baked into every download!
+tl;dr
+---
+
+All four methods are documented in full, but here's a cheat sheet. Given that `$(...)` is a jQuery selection of some kind, and given that `fn` is a function taking a jQuery selection as an argument,
+
+    // return the result of the function,
+    // useful for making your own jQuery methods
+    // like filters or traverses
+    
+    $(...).into(fn) =>
+      return fn($(...));
+
+    // execute the function but return the selection,
+    // useful for making your own jQuery methods that
+    // "chain" fluently
+    
+    $(...).tap(fn) =>
+      fn($(...));
+      return $(...);
+    
+    // execute the function if the selection is not
+    // empty, and always return the selection, useful
+    // for eliminating selection checks in methods
+    
+    $(...).ergo(fn) =>
+      if ($(...).length)
+        fn($(...));
+      return $(...)
+    
+    // execute the function, and return the selection
+    // if the function returned truthy, otherwise
+    // return an empty selection. Useful for refactoring
+    // if statements into chaining jQuery methods
+    
+    $(...).when(fn) =>
+      if (fn($(...)))
+        return $(...).filter('*');
+      else
+        return $(...).filter(':not(*)');
+      
 
 into
 ---
