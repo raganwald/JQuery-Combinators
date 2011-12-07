@@ -231,6 +231,13 @@ For example, `T` reverses the order of two things. Think about it: Instead of wr
 
 Many other combinators exist, and they are all interesting with applications for functional and OO programmers. With combinators you can even get rid of parentheses in a programming language! If you aren't familiar with Combinatory Logic, I encourage you to follow the links to my posts about Kestrels and Thrushes, and better still do a little digging about Combinatory Logic in general. It's a rich, fascinating field of study that is so simple it's incredibly easy to pick up, and it leads naturally into functional and [concatenative][joy] languages.
 
+I like it so much I want to use it with everything, not just jQuery
+---
+
+Good news! [Katy][katy] is a library that adds `.K` ("tap") and `.T` ("into") to any JavaScript/CoffeeScript class or object.
+
+[katy]: http://github.com/raganwald/Katy
+
 License
 ---
 
