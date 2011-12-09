@@ -1,24 +1,24 @@
 {
-  "name": 'combinators',
-  "version": '1.0.1',
-  "title": 'JQuery Combinators',
-  "author": {
-    "name": "Reg Braithwaite",
-    "email": "raganwald@gmail.com",
-    "url": "http://reginald.braythwayt.com"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ]
-  "dependencies": {
-    "jQuery": ">= 1.4"
-  },
-  "description": "The jQuery plugin with the academic name and the pragmatic methods",
-  "files": [
-    "jquery.combinators.js",
-    "jquery.combinators.min.js"
-  ]
+    "name": "combinators",
+    "version": "1.0.2",
+    "title": "JQueryCombinators",
+    "author": {
+        "name": "Reg Braithwaite",
+        "email": "raganwald@gmail.com",
+        "url": "http://reginald.braythwayt.com"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://www.opensource.org/licenses/mit-license.php"
+        }
+    ],
+    "dependencies": {
+        "jQuery": ">= 1.4"
+    },
+    "description": "The jQuery plugin with the academic name and the pragmatic methods",
+    "files": [
+        "jquery.combinators.js",
+        "jquery.combinators.min.js"
+    ]
 }
