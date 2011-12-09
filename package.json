@@ -1,6 +1,6 @@
 {
   "name": 'combinators',
-  "version": '1.0.0',
+  "version": '1.0.1',
   "title": 'JQuery Combinators',
   "author": {
     "name": "Reg Braithwaite",
@@ -14,6 +14,7 @@
     }
   ]
   "dependencies": {
+    "jQuery": ">= 1.4"
   },
   "description": "The jQuery plugin with the academic name and the pragmatic methods",
   "files": [
