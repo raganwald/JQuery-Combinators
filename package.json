@@ -1,0 +1,23 @@
+{
+  "name": 'combinators',
+  "version": '1.0.0',
+  "title": 'JQuery Combinators',
+  "author": {
+    "name": "Reg Braithwaite",
+    "email": "raganwald@gmail.com",
+    "url": "http://reginald.braythwayt.com"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ]
+  "dependencies": {
+  },
+  "description": "The jQuery plugin with the academic name and the pragmatic methods",
+  "files": [
+    "jquery.combinators.js",
+    "jquery.combinators.min.js"
+  ]
+}
