@@ -27,34 +27,40 @@ THE SOFTWARE.
 (function($,undefined){
 	
 	var jq_fn = $.fn,
-		aps = Array.prototype.slice,
-		noop = function () {};
+		useFuncLambda = typeof Functional !== 'undefined' && typeof Functional.lambda === 'function',
+		aps = Array.prototype.slice;
+	
+	// helpers
+	
+	function lambda( fn ) {
+		return useFuncLambda ? Functional.lambda( fn ) : fn;
+	}
+
+	function prependArgs(vals, args, offset) {
+		return vals.concat(aps.call( args, offset ));
+	}
 	
 	// combinators
 	
 	jq_fn.T = function( fn ) {
-		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
-		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
+		return lambda(fn).apply( this, prependArgs([this], arguments, 1) );
 	};
 	
 	jq_fn.K = function( fn ) {
-		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
-		fn.apply( this, [this].concat(aps.call( arguments, 1 )) );
+		lambda(fn).apply( this, prependArgs([this], arguments, 1) );
 		return this;
 	};
 	
 	// variations
 	
 	jq_fn.ergo = function( fn, optionalUnless ) {
-		var whichFn = this.length ? fn : (optionalUnless ? optionalUnless : noop);
-		whichFn = typeof Functional != 'undefined' ? Functional.lambda( whichFn ) : whichFn;
-		whichFn.apply( this, [this].concat(aps.call( arguments, 1 )) );
+		var whichFn = this.length ? fn : (optionalUnless ? optionalUnless : $.noop);
+		lambda(whichFn).apply( this, prependArgs([this], arguments, 1) );
 		return this;
 	};
 	
 	jq_fn.when = function (fn) {
-		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
-		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) ) ? this.filter('*') : this.filter('not(*)');
+		return lambda(fn).apply( this, prependArgs([this], arguments, 1) ) ? this.filter('*') : this.filter('not(*)');
 	};
 	
 	// aliases
