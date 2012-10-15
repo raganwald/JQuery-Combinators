@@ -238,6 +238,11 @@ Good news! [Katy][katy] is a library that adds `.K` ("tap") and `.T` ("into") to
 
 [katy]: http://github.com/raganwald/Katy
 
+post scriptum
+-------------
+
+I'm writing a book called [CoffeeScript Ristretto](http://leanpub.com/coffeescript-ristretto). Check it out!
+
 License
 ---
 
