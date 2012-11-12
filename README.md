@@ -3,23 +3,28 @@ jQuery Combinators
 
 *The jQuery plugin with the academic name and the pragmatic methods*
 
-jQuery Combinators adds four very useful methods to every jQuery object: `into`, `tap`, `ergo` and `when`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
+jQuery Combinators adds five very useful methods to every jQuery object: `tap`, `into`, `select`, `ergo` and `when`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
 tl;dr
 ---
 
-All four methods are documented in full, but here's a cheat sheet. Given that `$(...)` is a jQuery selection of some kind, and given that `fn` is a function taking a jQuery selection as an argument:
-
-**into** returns the result of the function. This is useful for making your own jQuery methods like filters or traverses:
-    
-    $(...).into(fn) =>
-      return fn($(...));
+All five methods are documented in full, but here's a cheat sheet. Given that `$(...)` is a jQuery selection of some kind, and given that `fn` is a function taking a jQuery selection as an argument:
 
 **tap** executes the function for side effects, then returns the original selection. This is useful for making your own jQuery methods that "chain" fluently:
     
     $(...).tap(fn) =>
       fn($(...));
       return $(...);
+
+**into** returns the result of the function. This is useful for making your own jQuery traverses or inspectors that act like `.size()` and `.attr`:
+    
+    $(...).into(fn) =>
+      return fn($(...));
+
+**select** returns the result of the function, just like `.into`, however it preserves the atomicity of filters. This is useful for making complex filter functions, because they work as expected when you use `.end()`:
+    
+    $(...).select(fn) =>
+      return fn($(...));
     
 **ergo** always return the selection. It will execute the function if the selection is not empty. This is useful for eliminating selection checks in methods:
     
@@ -35,6 +40,42 @@ All four methods are documented in full, but here's a cheat sheet. Given that `$
         return $(...).filter('*');
       else
         return $(...).filter(':not(*)');
+
+tap
+---
+
+It's common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. You can make your own methods that return the selection with `.tap`: It turns any function into a jQuery style "fluent" function that returns its argument. For example:
+
+    $('...')
+      .tap(function (bar) {
+        ...
+        return 'blitz';
+      })
+  
+    // => passes $('...') to the function and always returns $('...') and not 'blitz'.
+  
+Here's a real example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses `.tap` to call a function that updates a display element:
+
+    var increment_captured_display = function (captured_stones, colour) {
+      // ...
+    };
+
+    board
+    	.find($.map(this_move['K'].split(','), '"#" + _'.lambda()).join(','))
+    		.filter('.white')
+    			.tap(increment_captured_display, 'white')
+    			.removeClass('white')
+    			.addClass('changed was_white')
+    			.end()
+    		.filter('.black')
+    			.tap(increment_captured_display, 'black')
+    			.removeClass('black')
+    			.addClass('changed was_black')
+    			.end();
+  			
+We could have used `.into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver. With `.tap`, we are sure that we will get "self" back whether the function returns something else or even nothing at all.
+
+Also, did you notice that we passed the function and another parameter to `.tap`? With all of jQuery Combinators, extra parameters will be passed to the function along with the selection. Functional programmers will tell you that this isn't strictly necessary, however `.curry` isn't to everybody's taste. 
       
 
 into
@@ -57,7 +98,7 @@ With `into`, you can use that anywhere you like in jQuery style:
     $(...)
       .into(selectors) // returns a selector string
 
-Now your function works just like one of jQuery's built-in methods. You can do this with any function that takes a jQuery object as its parameter, even an anonymous function. `into` is especially useful with functions that transform one selection into another. This is equivalent to adding your own DOM traverses and filters to jQuery. jQuery's built-in traverses like `closest` or `siblings` are all general-purpose. But your specific web application will probably need its own domain-specific traverses and filters.
+Now your function works just like one of jQuery's built-in methods. You can do this with any function that takes a jQuery object as its parameter, even an anonymous function. `into` is especially useful with functions that transform one selection into another. This is equivalent to adding your own DOM traverses to jQuery. jQuery's built-in traverses like `closest` or `siblings` are all general-purpose. But your specific web application will probably need its own domain-specific traverses.
 
 In the game [Go][go], it is very common to want to find the intersections that are adjacent to some set of intersections on the board. The intersections are arranged in rows, so while `previous` and `next` an find adjacent intersections in the same row, you need something else to find the intersections above and below an intersection. Furthermore, Go's rules often require working with the intersections that are adjacent to a group of intersections on the board.
 
@@ -73,74 +114,30 @@ Now you can use `adjacent` just like any other jQuery traversal:
     $(...)
       .into(adjacent) // returns a selection of adjacent intersections
 
-It's also common to want to find the empty intersections within a selection. This code is short enough to repeat here:
+In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
+
+select
+---
+
+jQuery's built-in selection filters do clever things with a stack so that you can always call `.end()` to restore the previous selection. `into` does no such thing, although any `.find` or `.filter` you call inside of `.into` will work with jQuery's built-in stack. For creating your own filters, jQuery Combinators provides `.select`. It always preserves the previous state of the filter stack.
+
+In Go, it's common to want to find the empty intersections within a selection. This code is short enough to repeat here:
 
 		var empties = function (intersections) {
 			return intersections
 				.filter('.intersection:not(.black):not(.white)');
 		};
 		
-And again you can use `empties` just like a jQuery filter:
+You can use `empties` just like a jQuery filter:
 
     $(...)
-      .into(empties) // returns a selection of empty intersections
+      .select(empties) // returns a selection of empty intersections
       
-Or combine them to find the number of liberties (empty adjacent intersections):
+Or combine a traverse with a filter to find the number of liberties (empty adjacent intersections):
 
     $(...)
       .into(adjacent)
-        .into(empties)
-      
-They compose and commute just like jQuery's built-in methods. If you use [Functional Javascript][fj], you can use `compose` directly:
-
-    var liberties = Functional.compose(empties, adjacent);
-    
-    $(...)
-      .into(liberties)
-
-In summary, `.into` lets you write your own jQuery methods on the fly without having to inject them into the global namespace as your own plugin. This encourages you to write your code in "jQuery style."
-
-**caveat**
-
-jQuery's built-in selection traverses do clever things with a stack so that you can call `.end()` to restore the previous selection. `into` does no such thing, although any `.find` or `.filter` you call inside of `.into` will work with jQuery's built-in stack. If you need to use `.end()`, you may find that `.into` produces unexpected results under some circumstances.
-
-tap
----
-
-Although writing your own selection traverses is a common pattern in jQuery, it's also very common to want to perform a series of operations on a selection. jQuery has many built-in methods that always return their receiver to facilitate this kind of programming. You can use `into` for this, however you will have to make sure that any function called by `into` returns its receiver. Failing to do this can produce unexpected results.
-
-To avoid these errors and to make your code clearer, you can use `tap` instead of `into`. `tap` turns any function into a jQuery style "fluent" function that returns its argument. For example:
-
-    $('...')
-      .tap(function (bar) {
-        ...
-        return 'blitz';
-      })
-  
-    // => passes $('...') to the function and always returns $('...') and not 'blitz'.
-  
-Here's a real example from [a Go program][go]. The sample code calculates how many white and black stones have been captured, then uses `tap` to call a function that updates a display element:
-
-    var increment_captured_display = function (captured_stones, colour) {
-      // ...
-    };
-
-    board
-    	.find($.map(this_move['K'].split(','), '"#" + _'.lambda()).join(','))
-    		.filter('.white')
-    			.tap(increment_captured_display, 'white')
-    			.removeClass('white')
-    			.addClass('changed was_white')
-    			.end()
-    		.filter('.black')
-    			.tap(increment_captured_display, 'black')
-    			.removeClass('black')
-    			.addClass('changed was_black')
-    			.end();
-  			
-We could have used `into` to make this code clean, but then we'd have to fiddle around with our functions to make sure they return their receiver. With `tap`, we are sure that we will get "self" back whether the function returns something else or even nothing at all.
-
-Also, did you notice that we passed the function and another parameter to `.tap`? With all of jQuery Combinators, extra parameters will be passed to the function along with the selection. Functional programmers will tell you that this isn't strictly necessary, however `.curry` isn't to everybody's taste. 
+        .select(empties)
 
 **Conflicts**
 
@@ -268,11 +265,6 @@ License
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
-
-See Also
----
-
-[Jiayong Ou][jou] has also written a plugin for jQuery called [tap][tap].
 					
 [k]: http://github.com/raganwald/homoiconic/blob/master/2008-10-29/kestrel.markdown#readme
 [t]: http://github.com/raganwald/homoiconic/blob/master/2008-10-30/thrush.markdown#readme

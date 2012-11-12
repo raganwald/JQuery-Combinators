@@ -57,6 +57,15 @@ THE SOFTWARE.
 		return fn.apply( this, [this].concat(aps.call( arguments, 1 )) ) ? this.filter('*') : this.filter('not(*)');
 	};
 	
+	jq_fn.select = function (fn) {
+		fn = typeof Functional != 'undefined' ? Functional.lambda( fn ) : fn;
+		var copy = $(this);
+		
+		return this.filter(
+			fn.apply( copy, [copy].concat(aps.call( arguments, 1 )) )
+		) 
+	}
+	
 	// aliases
 	
 	if ( jq_fn.tap === undefined ) {
