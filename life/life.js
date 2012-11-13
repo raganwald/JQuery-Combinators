@@ -79,14 +79,14 @@
 		  iterating = false;
 	
 	// ## Set the page up
-	//
+
 	// Construct a table of cells dynamically and then set up ts click and event handlers to create
 	// an affordance-free UI.
 	buildLifeUniverse();
 	bindEventHandlers();
 	
 	// ## The core algorithm
-	//
+
 	// This is the core algorithm for iterating the Life Universe.
 	// It is one continuous fluid jQuery expression, starting with a
 	// selection of every cell
@@ -266,6 +266,11 @@
 	}
 	
 	// ## Setup Functions
+	
+	// Build the table dynamically. No real reason for this except to
+	// play with the size. Maybe one day there'll be a user option to
+	// resize things, or to resize the universe as the window grows and
+	// shrinks.
 	function buildLifeUniverse () {
 		var i,
 				j,
@@ -283,6 +288,7 @@
 		}
 	}
 	
+	// The smallest and most affordance-free UI.
 	function bindEventHandlers () {
 		$(document)
 			.keyup(function (event) {
@@ -298,6 +304,7 @@
 	}
 	
 	// ## The Filters
+	
 	function hasOnLeft (clazz) {
 		return function hasOnLeft ($selection) {
 			return $selection
