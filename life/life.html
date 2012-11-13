@@ -267,9 +267,9 @@ shrinks.</p>             </td>             <td class="code">               <div 
           <span class="p">.</span><span class="nx">prev</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
-  </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Nota Bene: EVen though jQuery Combinators provides <code>.select</code> specifically
+  </pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <p>Nota Bene: Even though jQuery Combinators provides <code>.select</code> specifically
 for filters, <code>.into</code> works just fine and is slightly faster if you don't
-need to preserve atomicity for usew with <code>.end()</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+need to preserve atomicity for use with <code>.end()</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
@@ -281,11 +281,9 @@ need to preserve atomicity for usew with <code>.end()</code>.</p>             </
   
   <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
-      
-      <span class="k">return</span> <span class="nx">$ab</span>
+      <span class="k">return</span> <span class="nx">$selection</span>
+        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
+          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -293,18 +291,17 @@ need to preserve atomicity for usew with <code>.end()</code>.</p>             </
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAbove</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">filter</span><span class="p">(),</span>
           <span class="nx">columnIndex</span><span class="p">,</span>
-          <span class="nx">$column</span><span class="p">;</span>
+          <span class="nx">$columnWithinSelection</span><span class="p">;</span>
     
       <span class="k">for</span> <span class="p">(</span><span class="nx">columnIndex</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">columnIndex</span> <span class="o">&lt;=</span> <span class="nx">SIZE</span><span class="p">;</span> <span class="nx">columnIndex</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">$column</span> <span class="o">=</span> <span class="nx">$selection</span>
-          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">));</span>
         <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$result</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
-          <span class="nx">$column</span>
-            <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
               <span class="p">.</span><span class="nx">parent</span><span class="p">()</span>
                 <span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
                   <span class="p">.</span><span class="nx">children</span><span class="p">()</span>
-                    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$column</span><span class="p">)</span>
+                    <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
+                      <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$selection</span><span class="p">)</span>
         <span class="p">)</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">$result</span><span class="p">;</span>
@@ -318,15 +315,14 @@ need to preserve atomicity for usew with <code>.end()</code>.</p>             </
           <span class="nx">$column</span><span class="p">;</span>
     
       <span class="k">for</span> <span class="p">(</span><span class="nx">columnIndex</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">columnIndex</span> <span class="o">&lt;=</span> <span class="nx">SIZE</span><span class="p">;</span> <span class="nx">columnIndex</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">$column</span> <span class="o">=</span> <span class="nx">$selection</span>
-          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">));</span>
         <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$result</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
-          <span class="nx">$column</span>
-            <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
+          <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
+            <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
               <span class="p">.</span><span class="nx">parent</span><span class="p">()</span>
                 <span class="p">.</span><span class="nx">prev</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
                   <span class="p">.</span><span class="nx">children</span><span class="p">()</span>
-                    <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$column</span><span class="p">)</span>
+                    <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
+                      <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$selection</span><span class="p">)</span>
         <span class="p">)</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">$result</span><span class="p">;</span>
@@ -336,20 +332,22 @@ need to preserve atomicity for usew with <code>.end()</code>.</p>             </
   <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">));</span>
       
-      <span class="k">return</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">$ab</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">$a</span>
+        <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">not</span><span class="p">(</span>
+            <span class="nx">$a</span>
+              <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
+          <span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
   <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
-      
-      <span class="k">return</span> <span class="nx">$ab</span><span class="p">;</span>
+      <span class="k">return</span> <span class="nx">$selection</span>
+        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
+          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -359,7 +357,8 @@ need to preserve atomicity for usew with <code>.end()</code>.</p>             </
         <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell:nth-child(&#39;</span><span class="o">+</span><span class="nx">index</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
-  </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>The Sole Operation</h2>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>The Sole Operation</h2>             </td>             <td class="code">               <div class="highlight"><pre>  
+  <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">i</span><span class="p">,</span>
@@ -377,6 +376,20 @@ need to preserve atomicity for usew with <code>.end()</code>.</p>             </
               <span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">next</span><span class="p">)</span>
         <span class="p">}</span>
       <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <h2>Debug</h2>             </td>             <td class="code">               <div class="highlight"><pre>  
+  <span class="kd">function</span> <span class="nx">log</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">$i</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+        <span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="p">}).</span><span class="nx">sort</span><span class="p">()</span>
+      <span class="p">)</span>
+    
     <span class="p">}</span>
   <span class="p">}</span>
 

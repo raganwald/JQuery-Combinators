@@ -335,11 +335,9 @@
 	
 	function hasOnLeftAndRight (clazz) {
 		return function hasOnLeftAndRight ($selection) {
-			var $a = $selection.into(hasOnLeft(clazz)),
-			    $b = $selection.into(hasOnRight(clazz)),
-			    $ab = $a.filter($b);
-			
-			return $ab
+			return $selection
+				.into(hasOnLeft(clazz))
+					.into(hasOnRight(clazz))
 		}
 	}
 	
@@ -347,18 +345,17 @@
 		return function hasAbove ($selection) {
 			var $result = $selection.filter(),
 			    columnIndex,
-			    $column;
+			    $columnWithinSelection;
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
-				$column = $selection
-					.into(cellsInColumnByIndex(columnIndex));
 				$result = $result.add(
-					$column
-						.filter('.cell'+clazz)
+					$('.cell'+clazz)
+						.into(cellsInColumnByIndex(columnIndex))
 							.parent()
 								.next('tr')
 									.children()
-										.filter($column)
+										.into(cellsInColumnByIndex(columnIndex))
+											.filter($selection)
 				)
 			}
 			return $result;
@@ -372,15 +369,14 @@
 			    $column;
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
-				$column = $selection
-					.into(cellsInColumnByIndex(columnIndex));
 				$result = $result.add(
-					$column
-						.filter('.cell'+clazz)
+					$('.cell'+clazz)
+						.into(cellsInColumnByIndex(columnIndex))
 							.parent()
 								.prev('tr')
 									.children()
-										.filter($column)
+										.into(cellsInColumnByIndex(columnIndex))
+											.filter($selection)
 				)
 			}
 			return $result;
@@ -390,20 +386,22 @@
 	function hasAboveOrBelow (clazz) {
 		return function hasAboveOrBelow ($selection) {
 			var $a = $selection.into(hasAbove(clazz)),
-			    $b = $selection.into(hasBelow(clazz)),
-			    $ab = $a.filter($b);
+			    $b = $selection.into(hasBelow(clazz));
 			
-			return $a.add($b).not($ab)
+			return $a
+				.add($b)
+					.not(
+						$a
+							.filter($b)
+					)
 		}
 	}
 	
 	function hasAboveAndBelow (clazz) {
 		return function hasAboveAndBelow ($selection) {
-			var $a = $selection.into(hasAbove(clazz)),
-			    $b = $selection.into(hasBelow(clazz)),
-			    $ab = $a.filter($b);
-			
-			return $ab;
+			return $selection
+				.into(hasAbove(clazz))
+					.into(hasBelow(clazz))
 		}
 	}
 	
@@ -415,6 +413,7 @@
 	}
 	
 	// ## The Sole Operation
+	
 	function incrementNeighbourCountBy (prefix) {
 		return function incrementNeighbourCountBy (number) {
 			return function incrementNeighbourCountBy ($selection) {
@@ -433,6 +432,22 @@
 							.addClass(next)
 				}
 			}
+		}
+	}
+	
+	// ## Debug
+	
+	function log ($selection) {
+		var $i;
+		
+		for (i = 0; i < arguments.length; i++) {
+
+			console.log(
+				arguments[i].map(function (i, e) {
+					return $(e).attr('id')
+				}).sort()
+			)
+		
 		}
 	}
 
