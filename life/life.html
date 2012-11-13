@@ -119,12 +119,12 @@ but always return the selection. We use that to implement operations,
 such as incrementing the left-right neighbour cont by one.</p>
 
 <p>We fnish with jQuery's <code>.end</code> to "pop the stack" and return to the original
-unfiltered selection.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectLeftOrRight</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
+unfiltered selection.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeftOrRight</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">1</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">)(</span><span class="mi">1</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
     </pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>and if they have a <code>.alive</code> to the left AND right, we increment their 
-neighbour count by two.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectLeftAndRight</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
+neighbour count by two.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeftAndRight</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">2</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">)(</span><span class="mi">2</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
@@ -143,10 +143,10 @@ neighbour count by two.</p>             </td>             <td class="code">     
 |   | ? |   |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectAboveOrBelow</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">1</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectAboveAndBelow</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="s1">&#39;.alive&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">2</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
     </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>Observation:</p>
@@ -168,10 +168,10 @@ horizontal neighbours, we must have two diagonal neighbours.</p>
 |   |   |   |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectAboveOrBelow</span><span class="p">(</span><span class="s1">&#39;.lr1&#39;</span><span class="p">))</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="s1">&#39;.lr1&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">1</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectAboveOrBelow</span><span class="p">(</span><span class="s1">&#39;.lr2&#39;</span><span class="p">))</span>
+      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="s1">&#39;.lr2&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">2</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>And therefore, if the cells both above and below us
 have one horizontal neighbour, we must have two
@@ -190,7 +190,7 @@ diagonal neighbours</p>
 |   |   | ? |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectAboveAndBelow</span><span class="p">(</span><span class="s1">&#39;.lr1&#39;</span><span class="p">))</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="s1">&#39;.lr1&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">2</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>And finally, if the cells both above and below us
 have two horizontal neighbours, we must have four
@@ -209,7 +209,7 @@ diagonal neighbours</p>
 | ? |   | ? |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">selectAboveAndBelow</span><span class="p">(</span><span class="s1">&#39;.lr2&#39;</span><span class="p">))</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="s1">&#39;.lr2&#39;</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCountBy</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)(</span><span class="mi">4</span><span class="p">))</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
     </pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>We can now discard the <code>lr</code> classes</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;lr0 lr1 lr2&#39;</span><span class="p">)</span>
@@ -254,50 +254,50 @@ dies</p>             </td>             <td class="code">               <div clas
           <span class="p">.</span><span class="nx">toggleClass</span><span class="p">(</span><span class="s2">&quot;alive&quot;</span><span class="p">)</span>
       <span class="p">})</span>
   <span class="p">}</span>
-  </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h2>The Filters</h2>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">selectLeft</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectLeft</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h2>The Filters</h2>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">hasOnLeft</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeft</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">$selection</span>
         <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="o">+</span><span class="s1">&#39; + .cell&#39;</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">hasOnRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">$selection</span>
         <span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="s1">&#39;.cell.alive&#39;</span><span class="p">)</span>
           <span class="p">.</span><span class="nx">prev</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">$ab</span><span class="p">);</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectLeftAndRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+  <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$ab</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectAbove</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectAbove</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">hasAbove</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAbove</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">filter</span><span class="p">(),</span>
           <span class="nx">columnIndex</span><span class="p">,</span>
           <span class="nx">$column</span><span class="p">;</span>
     
       <span class="k">for</span> <span class="p">(</span><span class="nx">columnIndex</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">columnIndex</span> <span class="o">&lt;=</span> <span class="nx">SIZE</span><span class="p">;</span> <span class="nx">columnIndex</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">$column</span> <span class="o">=</span> <span class="nx">$selection</span>
-          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectCellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">));</span>
+          <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">));</span>
         <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$result</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
           <span class="nx">$column</span>
             <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
@@ -311,15 +311,15 @@ dies</p>             </td>             <td class="code">               <div clas
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectAbove</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">hasBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAbove</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(),</span>
           <span class="nx">columnIndex</span><span class="p">,</span>
           <span class="nx">$column</span><span class="p">;</span>
     
       <span class="k">for</span> <span class="p">(</span><span class="nx">columnIndex</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">columnIndex</span> <span class="o">&lt;=</span> <span class="nx">SIZE</span><span class="p">;</span> <span class="nx">columnIndex</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">$column</span> <span class="o">=</span> <span class="nx">$selection</span>
-          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectCellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">));</span>
+          <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">));</span>
         <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$result</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
           <span class="nx">$column</span>
             <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
@@ -333,28 +333,28 @@ dies</p>             </td>             <td class="code">               <div clas
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectAboveOrBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectAboveOrBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+  <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">$ab</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectAboveAndBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectAboveAndBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">selectBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+  <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$ab</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">selectCellsInColumnByIndex</span> <span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kd">function</span> <span class="nx">selectCellsInColumnByIndex</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">cellsInColumnByIndex</span> <span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span> <span class="nx">cellsInColumnByIndex</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">$selection</span>
         <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell:nth-child(&#39;</span><span class="o">+</span><span class="nx">index</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
     <span class="p">}</span>

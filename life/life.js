@@ -141,14 +141,14 @@
 			//
 			// We fnish with jQuery's `.end` to "pop the stack" and return to the original
 			// unfiltered selection.
-			.select(selectLeftOrRight('.alive'))
+			.select(hasOnLeftOrRight('.alive'))
 				.tap(incrementNeighbourCountBy('n')(1))
 				.tap(incrementNeighbourCountBy('lr')(1))
 				.end()
 		
 			// and if they have a `.alive` to the left AND right, we increment their 
 			// neighbour count by two.
-			.select(selectLeftAndRight('.alive'))
+			.select(hasOnLeftAndRight('.alive'))
 				.tap(incrementNeighbourCountBy('n')(2))
 				.tap(incrementNeighbourCountBy('lr')(2))
 				.end()
@@ -168,10 +168,10 @@
 			//     |   | ? |   |
 			//     |   |   |   |
 			//     +---+---+---+
-			.select(selectAboveOrBelow('.alive'))
+			.select(hasAboveOrBelow('.alive'))
 				.tap(incrementNeighbourCountBy('n')(1))
 				.end()
-			.select(selectAboveAndBelow('.alive'))
+			.select(hasAboveAndBelow('.alive'))
 				.tap(incrementNeighbourCountBy('n')(2))
 				.end()
 		
@@ -194,10 +194,10 @@
 			//     |   |   |   |
 			//     |   |   |   |
 			//     +---+---+---+
-			.select(selectAboveOrBelow('.lr1'))
+			.select(hasAboveOrBelow('.lr1'))
 				.tap(incrementNeighbourCountBy('n')(1))
 				.end()
-			.select(selectAboveOrBelow('.lr2'))
+			.select(hasAboveOrBelow('.lr2'))
 				.tap(incrementNeighbourCountBy('n')(2))
 				.end()
 
@@ -218,7 +218,7 @@
 			//     |   |   | ? |
 			//     |   |   |   |
 			//     +---+---+---+
-			.select(selectAboveAndBelow('.lr1'))
+			.select(hasAboveAndBelow('.lr1'))
 				.tap(incrementNeighbourCountBy('n')(2))
 				.end()
 
@@ -239,7 +239,7 @@
 			//     | ? |   | ? |
 			//     |   |   |   |
 			//     +---+---+---+
-		  .select(selectAboveAndBelow('.lr2'))
+		  .select(hasAboveAndBelow('.lr2'))
 				.tap(incrementNeighbourCountBy('n')(4))
 				.end()
 		
@@ -298,50 +298,50 @@
 	}
 	
 	// ## The Filters
-	function selectLeft (clazz) {
-		return function selectLeft ($selection) {
+	function hasOnLeft (clazz) {
+		return function hasOnLeft ($selection) {
 			return $selection
 				.filter('.cell'+clazz+' + .cell')
 		}
 	}
 	
-	function selectRight (clazz) {
-		return function selectRight ($selection) {
+	function hasOnRight (clazz) {
+		return function hasOnRight ($selection) {
 			return $selection
 				.next('.cell.alive')
 					.prev('.cell')
 		}
 	}
 	
-	function selectLeftOrRight (clazz) {
-		return function selectLeftOrRight ($selection) {
-			var $a = $selection.into(selectLeft(clazz)),
-			    $b = $selection.into(selectRight(clazz)),
+	function hasOnLeftOrRight (clazz) {
+		return function hasOnLeftOrRight ($selection) {
+			var $a = $selection.select(hasOnLeft(clazz)),
+			    $b = $selection.select(hasOnRight(clazz)),
 			    $ab = $a.filter($b);
 			
 			return $a.add($b).not($ab);
 		}
 	}
 	
-	function selectLeftAndRight (clazz) {
-		return function selectLeftOrRight ($selection) {
-			var $a = $selection.into(selectLeft(clazz)),
-			    $b = $selection.into(selectRight(clazz)),
+	function hasOnLeftAndRight (clazz) {
+		return function hasOnLeftAndRight ($selection) {
+			var $a = $selection.select(hasOnLeft(clazz)),
+			    $b = $selection.select(hasOnRight(clazz)),
 			    $ab = $a.filter($b);
 			
 			return $ab
 		}
 	}
 	
-	function selectAbove (clazz) {
-		return function selectAbove ($selection) {
+	function hasAbove (clazz) {
+		return function hasAbove ($selection) {
 			var $result = $selection.filter(),
 			    columnIndex,
 			    $column;
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
 				$column = $selection
-					.into(selectCellsInColumnByIndex(columnIndex));
+					.select(cellsInColumnByIndex(columnIndex));
 				$result = $result.add(
 					$column
 						.filter('.cell'+clazz)
@@ -355,15 +355,15 @@
 		}
 	}
 	
-	function selectBelow (clazz) {
-		return function selectAbove ($selection) {
+	function hasBelow (clazz) {
+		return function hasAbove ($selection) {
 			var $result = $(),
 			    columnIndex,
 			    $column;
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
 				$column = $selection
-					.into(selectCellsInColumnByIndex(columnIndex));
+					.select(cellsInColumnByIndex(columnIndex));
 				$result = $result.add(
 					$column
 						.filter('.cell'+clazz)
@@ -377,28 +377,28 @@
 		}
 	}
 	
-	function selectAboveOrBelow (clazz) {
-		return function selectAboveOrBelow ($selection) {
-			var $a = $selection.into(selectAbove(clazz)),
-			    $b = $selection.into(selectBelow(clazz)),
+	function hasAboveOrBelow (clazz) {
+		return function hasAboveOrBelow ($selection) {
+			var $a = $selection.select(hasAbove(clazz)),
+			    $b = $selection.select(hasBelow(clazz)),
 			    $ab = $a.filter($b);
 			
 			return $a.add($b).not($ab)
 		}
 	}
 	
-	function selectAboveAndBelow (clazz) {
-		return function selectAboveAndBelow ($selection) {
-			var $a = $selection.into(selectAbove(clazz)),
-			    $b = $selection.into(selectBelow(clazz)),
+	function hasAboveAndBelow (clazz) {
+		return function hasAboveAndBelow ($selection) {
+			var $a = $selection.select(hasAbove(clazz)),
+			    $b = $selection.select(hasBelow(clazz)),
 			    $ab = $a.filter($b);
 			
 			return $ab;
 		}
 	}
 	
-	function selectCellsInColumnByIndex (index) {
-		return function selectCellsInColumnByIndex ($selection) {
+	function cellsInColumnByIndex (index) {
+		return function cellsInColumnByIndex ($selection) {
 			return $selection
 				.filter('.cell:nth-child('+index+')')
 		}
