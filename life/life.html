@@ -60,14 +60,16 @@ with operations on DOM elements rather than working at lightening speed on a mod
 displaying the result in a canvas or on the DOM. This is not intended as anything except
 an excuse to pack as many DOM operations as possible in the space provided.</p>
 
-<hr />             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h2>The Code</h2>             </td>             <td class="code">               <div class="highlight"><pre>  
+<hr />             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h1>The Code</h1>             </td>             <td class="code">               <div class="highlight"><pre>  
 <span class="p">;</span><span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span> <span class="nx">life</span><span class="p">()</span> <span class="p">{</span>
     
   <span class="kd">var</span> <span class="nx">$</span>      <span class="o">=</span> <span class="nx">jQuery</span><span class="p">,</span>
       <span class="nx">$tbody</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;table tbody&#39;</span><span class="p">),</span>
       <span class="nx">SIZE</span>   <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
       <span class="nx">iterating</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-  </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Construct a table of cells dynamically and then set up ts click and event handlers to create
+  </pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h2>Set the page up</h2>
+
+<p>Construct a table of cells dynamically and then set up ts click and event handlers to create
 an affordance-free UI.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">buildLifeUniverse</span><span class="p">();</span>
   <span class="nx">bindEventHandlers</span><span class="p">();</span>
   </pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>The core algorithm</h2>

@@ -69,7 +69,7 @@
 //
 // ---
 
-// ## The Code
+// # The Code
 	
 ;jQuery(function life() {
 		
@@ -78,6 +78,8 @@
 		  SIZE   = 16,
 		  iterating = false;
 	
+	// ## Set the page up
+	//
 	// Construct a table of cells dynamically and then set up ts click and event handlers to create
 	// an affordance-free UI.
 	buildLifeUniverse();
