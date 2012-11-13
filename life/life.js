@@ -399,7 +399,11 @@
 	
 	function hasAboveAndBelow (clazz) {
 		return function hasAboveAndBelow ($selection) {
-			return $selection.into(hasAbove(clazz)).into(hasBelow(clazz))
+			var $a = $selection.into(hasAbove(clazz)),
+			    $b = $selection.into(hasBelow(clazz)),
+			    $ab = $a.filter($b);
+			
+			return $ab;
 		}
 	}
 	
