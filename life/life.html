@@ -271,8 +271,8 @@ dies</p>             </td>             <td class="code">               <div clas
   
   <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">$ab</span><span class="p">);</span>
@@ -281,11 +281,9 @@ dies</p>             </td>             <td class="code">               <div clas
   
   <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
-      
-      <span class="k">return</span> <span class="nx">$ab</span>
+      <span class="k">return</span> <span class="nx">$selection</span>
+        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
+          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -335,8 +333,8 @@ dies</p>             </td>             <td class="code">               <div clas
   
   <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">$ab</span><span class="p">)</span>
@@ -345,11 +343,9 @@ dies</p>             </td>             <td class="code">               <div clas
   
   <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
-      
-      <span class="k">return</span> <span class="nx">$ab</span><span class="p">;</span>
+      <span class="k">return</span> <span class="nx">$selection</span>
+        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
+          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
     <span class="p">}</span>
   <span class="p">}</span>
   

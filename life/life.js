@@ -315,8 +315,8 @@
 	
 	function hasOnLeftOrRight (clazz) {
 		return function hasOnLeftOrRight ($selection) {
-			var $a = $selection.select(hasOnLeft(clazz)),
-			    $b = $selection.select(hasOnRight(clazz)),
+			var $a = $selection.into(hasOnLeft(clazz)),
+			    $b = $selection.into(hasOnRight(clazz)),
 			    $ab = $a.filter($b);
 			
 			return $a.add($b).not($ab);
@@ -325,11 +325,9 @@
 	
 	function hasOnLeftAndRight (clazz) {
 		return function hasOnLeftAndRight ($selection) {
-			var $a = $selection.select(hasOnLeft(clazz)),
-			    $b = $selection.select(hasOnRight(clazz)),
-			    $ab = $a.filter($b);
-			
-			return $ab
+			return $selection
+			  .into(hasOnLeft(clazz))
+			    .into(hasOnRight(clazz))
 		}
 	}
 	
@@ -379,8 +377,8 @@
 	
 	function hasAboveOrBelow (clazz) {
 		return function hasAboveOrBelow ($selection) {
-			var $a = $selection.select(hasAbove(clazz)),
-			    $b = $selection.select(hasBelow(clazz)),
+			var $a = $selection.into(hasAbove(clazz)),
+			    $b = $selection.into(hasBelow(clazz)),
 			    $ab = $a.filter($b);
 			
 			return $a.add($b).not($ab)
@@ -389,11 +387,9 @@
 	
 	function hasAboveAndBelow (clazz) {
 		return function hasAboveAndBelow ($selection) {
-			var $a = $selection.select(hasAbove(clazz)),
-			    $b = $selection.select(hasBelow(clazz)),
-			    $ab = $a.filter($b);
-			
-			return $ab;
+			return $selection
+				.into(hasAbove(clazz))
+			    .into(hasBelow(clazz))
 		}
 	}
 	
