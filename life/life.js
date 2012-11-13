@@ -292,7 +292,7 @@
 			})
 	}
 	
-	// The Core Filters and Traverses
+	// ## The Filters
 	
 	function selectLeft (clazz) {
 		return function selectLeft ($selection) {
@@ -399,6 +399,8 @@
 				.filter('.cell:nth-child('+index+')')
 		}
 	}
+	
+	// The Operation
 	
 	function incrementNeighbourCountBy (prefix) {
 		return function incrementNeighbourCountBy (number) {
