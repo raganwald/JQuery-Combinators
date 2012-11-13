@@ -1,12 +1,11 @@
 // # Conway's Game of Life
 //
-// This toy implementation of [Life] was written to demonstrate the use of [jQuery Combinators][jc].
-//
-// The thesis is that with jQuery Combinators, you can write your own application logic
+// With [jQuery Combinators][jc], you can write your own application logic
 // using exactly the same fluent style that jQuery's methods use, creating a single, consistent
 // and easy-to-read style for your jQuery-powered JavaScript or CoffeeScript.
 //
-// You can try it **[here]**. Click to toggle any cell between alive and dead. Press return
+// This toy implementation of [Life] was written to demonstrate fluent application logic. You can
+// try it **[here]**. Click to toggle any cell between alive and dead. Press return
 // to advance a generation.
 //
 // [Life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
@@ -76,7 +75,11 @@
 	var $      = jQuery,
 	    $tbody = $('table tbody'),
 		  SIZE   = 16,
-		  iterating = false;
+		  iterating = false,
+		  incrementNeighbourCountBy = incrementNeighbourCount,
+		  incrementLeftRightCountBy = incrementLeftRightCount,
+			resetNeighbourCount = resetCount('n'),
+			resetLeftRightCount = resetCount('lr');
 	
 	// ## Set the page up
 
@@ -106,7 +109,7 @@
 			//
 			// We'll encode the number of neighbours in a class, from `n0`
 			// (zero neighbours) to `n8` (eight neighbours).
-			.addClass('n0')
+			.tap(resetNeighbourCount)
 
 			// First, we're going to count the neighbours to the left and the right
 			// of every cell. In addition to encoding the result from `n0` though `n2`, 
@@ -127,7 +130,7 @@
 			//     |   |   |   |
 			//     |   |   |   |
 			//     +---+---+---+
-			.addClass('lr0')
+			.tap(resetLeftRightCount)
 		
 			// Here's our first use of `.select`. It passes the selection to a function
 			// that is understood to apply a filter. It has the special property of 
@@ -142,15 +145,15 @@
 			// We fnish with jQuery's `.end` to "pop the stack" and return to the original
 			// unfiltered selection.
 			.select(hasOnLeftOrRight('.alive'))
-				.tap(incrementNeighbourCountBy('n')(1))
-				.tap(incrementNeighbourCountBy('lr')(1))
+				.tap(incrementNeighbourCount(1))
+				.tap(incrementLeftRightCount(1))
 				.end()
 		
 			// and if they have a `.alive` to the left AND right, we increment their 
 			// neighbour count by two.
 			.select(hasOnLeftAndRight('.alive'))
-				.tap(incrementNeighbourCountBy('n')(2))
-				.tap(incrementNeighbourCountBy('lr')(2))
+				.tap(incrementNeighbourCount(2))
+				.tap(incrementLeftRightCount(2))
 				.end()
 		
 			// Now we count whether each cell has one or two vertical neighbours.
@@ -169,10 +172,10 @@
 			//     |   |   |   |
 			//     +---+---+---+
 			.select(hasAboveOrBelow('.alive'))
-				.tap(incrementNeighbourCountBy('n')(1))
+				.tap(incrementNeighbourCount(1))
 				.end()
 			.select(hasAboveAndBelow('.alive'))
-				.tap(incrementNeighbourCountBy('n')(2))
+				.tap(incrementNeighbourCount(2))
 				.end()
 		
 		  // Observation:
@@ -195,10 +198,10 @@
 			//     |   |   |   |
 			//     +---+---+---+
 			.select(hasAboveOrBelow('.lr1'))
-				.tap(incrementNeighbourCountBy('n')(1))
+				.tap(incrementNeighbourCount(1))
 				.end()
 			.select(hasAboveOrBelow('.lr2'))
-				.tap(incrementNeighbourCountBy('n')(2))
+				.tap(incrementNeighbourCount(2))
 				.end()
 
 			// And therefore, if the cells both above and below us
@@ -219,7 +222,7 @@
 			//     |   |   |   |
 			//     +---+---+---+
 			.select(hasAboveAndBelow('.lr1'))
-				.tap(incrementNeighbourCountBy('n')(2))
+				.tap(incrementNeighbourCount(2))
 				.end()
 
 			// And finally, if the cells both above and below us
@@ -240,11 +243,11 @@
 			//     |   |   |   |
 			//     +---+---+---+
 		  .select(hasAboveAndBelow('.lr2'))
-				.tap(incrementNeighbourCountBy('n')(4))
+				.tap(incrementNeighbourCount(4))
 				.end()
 		
 		  // We can now discard the `lr` classes
-			.removeClass('lr0 lr1 lr2')
+			.tap(resetLeftRightCount)
 		
 		  // ### Implementing Life's Rules
 		
@@ -412,11 +415,11 @@
 		}
 	}
 	
-	// ## The Sole Operation
+	// ## Side-Effectful Operations
 	
-	function incrementNeighbourCountBy (prefix) {
-		return function incrementNeighbourCountBy (number) {
-			return function incrementNeighbourCountBy ($selection) {
+	function incrementCountBy (prefix) {
+		return function incrementCountBy (number) {
+			return function incrementCountBy ($selection) {
 				var i,
 				    was,
 				    next;
@@ -432,6 +435,17 @@
 							.addClass(next)
 				}
 			}
+		}
+	}
+	
+	function resetCount (prefix) {
+		return function resetCount ($selection) {
+			$selection
+				.removeClass(prefix + '1 ' + prefix + '2 ' + prefix +
+				  '3 ' + prefix + '4 ' + prefix + '5 ' + prefix + '6 ' +
+				  '7 ' + prefix + '8'
+				)
+				.addClass(prefix + '0')
 		}
 	}
 	
