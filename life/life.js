@@ -320,9 +320,9 @@
 		}
 	}
 	
-	// Nota Bene: EVen though jQuery Combinators provides `.select` specifically
+	// Nota Bene: Even though jQuery Combinators provides `.select` specifically
 	// for filters, `.into` works just fine and is slightly faster if you don't
-	// need to preserve atomicity for usew with `.end()`.
+	// need to preserve atomicity for use with `.end()`.
 	function hasOnLeftOrRight (clazz) {
 		return function hasOnLeftOrRight ($selection) {
 			var $a = $selection.into(hasOnLeft(clazz)),
@@ -399,11 +399,7 @@
 	
 	function hasAboveAndBelow (clazz) {
 		return function hasAboveAndBelow ($selection) {
-			var $a = $selection.into(hasAbove(clazz)),
-			    $b = $selection.into(hasBelow(clazz)),
-			    $ab = $a.filter($b);
-			
-			return $ab;
+			return $selection.into(hasAbove(clazz)).into(hasBelow(clazz))
 		}
 	}
 	
