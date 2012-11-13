@@ -5,7 +5,7 @@ jQuery Combinators
 
 jQuery Combinators adds five very useful methods to every jQuery object: `tap`, `into`, `select`, `ergo` and `when`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
-[Read more and sample a demonstration on the jQuery Combinators Home Page](https://raganwald.github.com/JQuery-Combinators)
+[Read more and sample a demonstration on the jQuery Combinators Home Page](http://raganwald.github.com/JQuery-Combinators/)
 
 tl;dr
 ---
