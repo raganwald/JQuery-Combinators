@@ -6,7 +6,7 @@
 // using exactly the same fluent style that jQuery's methods use, creating a single, consistent
 // and easy-to-read style for your jQuery-powered JavaScript or CoffeeScript.
 //
-// You can try it [here]. Click to toggle a cell between alive and dead. Press the space bar
+// You can try it [here]. Click to toggle a cell between alive and dead. Press return
 // to advance a generation.
 //
 // [Life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
@@ -281,7 +281,7 @@
 	function bindEventHandlers () {
 		$(document)
 			.keyup(function (event) {
-				if (event.keyCode == 32) {
+				if (event.keyCode == 13) {
 					stepForwardOneGeneration()
 				}
 			});
