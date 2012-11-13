@@ -5,6 +5,8 @@ jQuery Combinators
 
 jQuery Combinators adds five very useful methods to every jQuery object: `tap`, `into`, `select`, `ergo` and `when`. These allow you to use your own functions as if they were built-in jQuery methods, which makes your code cleaner and more "jQuery-like."
 
+[Read more and sample a demonstration on the jQuery Combinators Home Page](https://raganwald.github.com/jQuery-Combinators)
+
 tl;dr
 ---
 
@@ -138,10 +140,6 @@ Or combine a traverse with a filter to find the number of liberties (empty adjac
     $(...)
       .into(adjacent)
         .select(empties)
-
-**Conflicts**
-
-Some other libraries, such as JQTouch, define `tap` for handling touch events on tablets or mobile devices. To avoid conflicts, if you load jQuery Combinators *after* other such libraries, jQuery Combinators will not re-define `tap`. In that case, you must use `K` (see below) since `tap` will be reserved for handling touch events. I'm not aware of any other library defining `into`, but if it does, jQuery Combinators will not redefine `into` and you will have to use `T` instead.
 
 ergo
 ---
