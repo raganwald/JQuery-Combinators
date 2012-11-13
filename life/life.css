@@ -1,0 +1,15 @@
+table.life {
+	border: 1px;
+	cellspacing: 0px;
+	cellpadding: 0px;
+	background-color: black;
+}
+
+table.life td {
+	width: 25px;
+	height: 25px;
+}
+
+table.life td.alive {
+	background-color: white;
+}
