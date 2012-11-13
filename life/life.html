@@ -6,7 +6,7 @@
 using exactly the same fluent style that jQuery's methods use, creating a single, consistent
 and easy-to-read style for your jQuery-powered JavaScript or CoffeeScript.</p>
 
-<p>You can try it [<strong>here</strong>]. Click to toggle a cell between alive and dead. Press return
+<p>You can try it <strong><a href="./index.html">here</a></strong>. Click to toggle any cell between alive and dead. Press return
 to advance a generation.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Introduction</h2>
 
 <p>jQuery is a general-purpose library that provides a number of browser-specific functions. Its core
@@ -26,7 +26,9 @@ representing the size of the selection.</li>
 when you use its built-in methods, you can write idomatic, "fluent" jQuery code. But when you
 incorporate your own logic, you have to break out of the fluent style.</p>
 
-<p>For example, let's say we are writing an implementation of Life (because we are). And let's
+<h3>Life, the Universe, and jQuery</h3>
+
+<p>Let's say we are writing an implementation of Life (because we are). And let's
 say that we are representing the Life Universe as a table, with one <code>td</code> for each cell in the
 universe (because we did). And live cells have the class <code>alive</code>.</p>
 
@@ -34,11 +36,13 @@ universe (because we did). And live cells have the class <code>alive</code>.</p>
 <code>$('td.alive + td')</code>. And if we wanted to filter a selection of cells to thoe that were to the
 right of a live cell, we could write <code>$selection.filter('td.alive + td')</code>.</p>
 
-<p>So far, so good. Yay jQuery. But hw do we name this relationship? How do we DRY up our code?
+<p>So far, so good. Yay jQuery. But how do we name this relationship? How do we DRY up our code?
 And how do we do it in a way that naturally fits in with jQuery's style?</p>
 
+<h3>jQuery Combinators</h3>
+
 <p>jQuery Combinators to the rescue. jQuery Combinators provides a method called <code>.into</code> that turns
-any function into a traverse or filter. So we can write:</p>
+any function into a traverse, and <code>.select</code> that turns any function into a filter. So we can write:</p>
 
 <pre><code>function liveOnTheLeft ($selection) {
   return $selection
@@ -46,8 +50,8 @@ any function into a traverse or filter. So we can write:</p>
 }
 </code></pre>
 
-<p>And now, whenever we want to use this, we can write <code>$selection.into(liveOnTheLeft)</code> just as
-if <code>liveOnTheLeft</code> was a built-in jQuery method. There's also <code>.tap</code> for turning your own
+<p>And now, whenever we want to use this, we can write <code>$selection.select(liveOnTheLeft)</code> just as
+if <code>liveOnTheLeft</code> was a built-in jQuery filter. There's also <code>.tap</code> for turning your own
 functions into methods that perform an operation and return the selection, just like jQuery's 
 built-in operations.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h2>Disclaimer</h2>
 
