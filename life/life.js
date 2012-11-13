@@ -32,7 +32,9 @@
 // when you use its built-in methods, you can write idomatic, "fluent" jQuery code. But when you
 // incorporate your own logic, you have to break out of the fluent style.
 //
-// For example, let's say we are writing an implementation of Life (because we are). And let's
+// ### Life, the Universe, and jQuery
+//
+// Let's say we are writing an implementation of Life (because we are). And let's
 // say that we are representing the Life Universe as a table, with one `td` for each cell in the
 // universe (because we did). And live cells have the class `alive`.
 //
@@ -40,19 +42,21 @@
 // `$('td.alive + td')`. And if we wanted to filter a selection of cells to thoe that were to the
 // right of a live cell, we could write `$selection.filter('td.alive + td')`.
 //
-// So far, so good. Yay jQuery. But hw do we name this relationship? How do we DRY up our code?
+// So far, so good. Yay jQuery. But how do we name this relationship? How do we DRY up our code?
 // And how do we do it in a way that naturally fits in with jQuery's style?
 //
+// ### jQuery Combinators
+//
 // jQuery Combinators to the rescue. jQuery Combinators provides a method called `.into` that turns
-// any function into a traverse or filter. So we can write:
+// any function into a traverse, and `.select` that turns any function into a filter. So we can write:
 //
 //     function liveOnTheLeft ($selection) {
 //       return $selection
 //         .filter('td.alive + td')
 //     }
 //
-// And now, whenever we want to use this, we can write `$selection.into(liveOnTheLeft)` just as
-// if `liveOnTheLeft` was a built-in jQuery method. There's also `.tap` for turning your own
+// And now, whenever we want to use this, we can write `$selection.select(liveOnTheLeft)` just as
+// if `liveOnTheLeft` was a built-in jQuery filter. There's also `.tap` for turning your own
 // functions into methods that perform an operation and return the selection, just like jQuery's 
 // built-in operations.
 
