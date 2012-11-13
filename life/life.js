@@ -260,7 +260,6 @@
 	}
 	
 	// ## Setup Functions
-	
 	function buildLifeUniverse () {
 		var i,
 				j,
@@ -293,7 +292,6 @@
 	}
 	
 	// ## The Filters
-	
 	function selectLeft (clazz) {
 		return function selectLeft ($selection) {
 			return $selection
@@ -400,8 +398,7 @@
 		}
 	}
 	
-	// The Operation
-	
+	// ## The Sole Operation
 	function incrementNeighbourCountBy (prefix) {
 		return function incrementNeighbourCountBy (number) {
 			return function incrementNeighbourCountBy ($selection) {
