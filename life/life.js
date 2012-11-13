@@ -1,6 +1,6 @@
 // # Conway's Game of Life
 //
-// This implementation of [Life] was written to demonstrate the use of [jQuery Combinators][jc].
+// This toy implementation of [Life] was written to demonstrate the use of [jQuery Combinators][jc].
 //
 // The thesis is that with jQuery Combinators, you can write your own application logic
 // using exactly the same fluent style that jQuery's methods use, creating a single, consistent
@@ -313,6 +313,9 @@
 		}
 	}
 	
+	// Nota Bene: EVen though jQuery Combinators provides `.select` specifically
+	// for filters, `.into` works just fine and is slightly faster if you don't
+	// need to preserve atomicity for usew with `.end()`.
 	function hasOnLeftOrRight (clazz) {
 		return function hasOnLeftOrRight ($selection) {
 			var $a = $selection.into(hasOnLeft(clazz)),

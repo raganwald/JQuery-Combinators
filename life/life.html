@@ -1,6 +1,6 @@
 <!DOCTYPE html>  <html> <head>   <title>life.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               life.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h1>Conway's Game of Life</h1>
 
-<p>This implementation of <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">Life</a> was written to demonstrate the use of <a href="http://raganwald.github.com/JQuery-Combinators">jQuery Combinators</a>.</p>
+<p>This toy implementation of <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">Life</a> was written to demonstrate the use of <a href="http://raganwald.github.com/JQuery-Combinators">jQuery Combinators</a>.</p>
 
 <p>The thesis is that with jQuery Combinators, you can write your own application logic
 using exactly the same fluent style that jQuery's methods use, creating a single, consistent
@@ -268,8 +268,9 @@ dies</p>             </td>             <td class="code">               <div clas
           <span class="p">.</span><span class="nx">prev</span><span class="p">(</span><span class="s1">&#39;.cell&#39;</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
-  
-  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>Nota Bene: EVen though jQuery Combinators provides <code>.select</code> specifically
+for filters, <code>.into</code> works just fine and is slightly faster if you don't
+need to preserve atomicity for usew with <code>.end()</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
           <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
@@ -359,7 +360,7 @@ dies</p>             </td>             <td class="code">               <div clas
         <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">&#39;.cell:nth-child(&#39;</span><span class="o">+</span><span class="nx">index</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
-  </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <h2>The Sole Operation</h2>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>
+  </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <h2>The Sole Operation</h2>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="kd">function</span> <span class="nx">incrementNeighbourCountBy</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">i</span><span class="p">,</span>
