@@ -418,16 +418,18 @@
 	}
 	
 	function hasNeighbours () {
-		var clazzes = cellSelector + '.n' + arguments[0],
+		var selector = cellSelector + '.n' + arguments[0],
 		    i;
 		
 		for (i = 1; i < arguments.length; i++) {
-			clazzes = clazzes + ',' + cellSelector +'.n' + arguments[i]
+			selector = selector + ',' + cellSelector +'.n' + arguments[i]
 		}
+		
+		console.log(selector);
 		
 		return function hasNeighbours ($selection) {
 			return $selection
-				.filter(clazzes)
+				.filter(selector)
 		}
 	}
 	
@@ -440,7 +442,7 @@
 	function willDie ($selection) {
 		return $selection
 			.filter(aliveSelector)
-				.into(hasNeighbours(2,3))
+				.into(hasNeighbours(0,1,4,5,6,7,8))
 	}
 	
 	// ## Side-Effectful Operations
