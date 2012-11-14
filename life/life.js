@@ -257,7 +257,7 @@
 		
 		  // Any cell that is not alive and has exactly three neighbours
 		  // becomes alive
-			.select(willBirth)
+			.select(willBeBorn)
 				.tap(animateBirths)
 				.end()
 				
@@ -419,7 +419,7 @@
 		}
 	}
 	
-	return function hasNeighbours () {
+	function hasNeighbours () {
 		var clazzes = reduce.map(function (acc, number) {
 			return acc + '.n' + number
 		}, cellSelector);
@@ -430,7 +430,7 @@
 		}
 	}
 	
-	function willBirth ($selection) {
+	function willBeBorn ($selection) {
 		return $selection
 			.not(aliveSelector)
 				.into(hasNeighbours(3))

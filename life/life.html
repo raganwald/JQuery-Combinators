@@ -217,7 +217,7 @@ diagonal neighbours</p>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
     </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>We can now discard the <code>lr</code> classes</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">resetLeftRightCount</span><span class="p">)</span>
     </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h3>Implementing Life's Rules</h3>             </td>             <td class="code">               <div class="highlight"><pre>    </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Any cell that is not alive and has exactly three neighbours
-becomes alive</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">willBirth</span><span class="p">)</span>
+becomes alive</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">willBeBorn</span><span class="p">)</span>
         <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">animateBirths</span><span class="p">)</span>
         <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
         </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Any cell that is alive and does not have two or three nighbours
@@ -365,7 +365,7 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasNeighbours</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">hasNeighbours</span> <span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">clazzes</span> <span class="o">=</span> <span class="nx">reduce</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">acc</span> <span class="o">+</span> <span class="s1">&#39;.n&#39;</span> <span class="o">+</span> <span class="nx">number</span>
     <span class="p">},</span> <span class="nx">cellSelector</span><span class="p">);</span>
@@ -376,7 +376,7 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
     <span class="p">}</span>
   <span class="p">}</span>
   
-  <span class="kd">function</span> <span class="nx">willBirth</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">willBeBorn</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">$selection</span>
       <span class="p">.</span><span class="nx">not</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)</span>
         <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasNeighbours</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
