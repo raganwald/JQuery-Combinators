@@ -333,10 +333,11 @@
 	function hasOnLeftOrRight (clazz) {
 		return function hasOnLeftOrRight ($selection) {
 			var $a = $selection.into(hasOnLeft(clazz)),
-			    $b = $selection.into(hasOnRight(clazz)),
-			    $ab = $a.filter($b);
+			    $b = $selection.into(hasOnRight(clazz));
 			
-			return $a.add($b).not($ab);
+			return $a
+				.add($b)
+					.not($a.filter($b));
 		}
 	}
 	
@@ -397,10 +398,7 @@
 			
 			return $a
 				.add($b)
-					.not(
-						$a
-							.filter($b)
-					)
+					.not($a.filter($b))
 		}
 	}
 	

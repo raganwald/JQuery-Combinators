@@ -279,10 +279,11 @@ for filters, <code>.into</code> works just fine and is slightly faster if you do
 need to preserve atomicity for use with <code>.end()</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$ab</span> <span class="o">=</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">);</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">));</span>
       
-      <span class="k">return</span> <span class="nx">$a</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">$ab</span><span class="p">);</span>
+      <span class="k">return</span> <span class="nx">$a</span>
+        <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">not</span><span class="p">(</span><span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">));</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -343,10 +344,7 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
       
       <span class="k">return</span> <span class="nx">$a</span>
         <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
-          <span class="p">.</span><span class="nx">not</span><span class="p">(</span>
-            <span class="nx">$a</span>
-              <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
-          <span class="p">)</span>
+          <span class="p">.</span><span class="nx">not</span><span class="p">(</span><span class="nx">$a</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$b</span><span class="p">))</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -366,7 +364,7 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
   <span class="p">}</span>
   
   <span class="kd">function</span> <span class="nx">hasNeighbours</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">clazzes</span> <span class="o">=</span> <span class="nx">reduce</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">clazzes</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">acc</span> <span class="o">+</span> <span class="s1">&#39;.n&#39;</span> <span class="o">+</span> <span class="nx">number</span>
     <span class="p">},</span> <span class="nx">cellSelector</span><span class="p">);</span>
     
