@@ -76,6 +76,8 @@
 	    $tbody = $('table tbody'),
 		  SIZE   = 16,
 		  iterating = false,
+			incrementNeighbourCount = incrementCountBy('n'),
+			incrementLeftRightCount = incrementCountBy('lr'),
 			resetNeighbourCount = resetCount('n'),
 			resetLeftRightCount = resetCount('lr'),
 			cellSelector = '.cell',
