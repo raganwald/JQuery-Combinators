@@ -422,7 +422,7 @@
 		    i;
 		
 		for (i = 0; i < arguments.length; i++) {
-			clazzes = clazzes + '.n' + number
+			clazzes = clazzes + '.n' + arguments[i]
 		}
 		
 		return function hasNeighbours ($selection) {
