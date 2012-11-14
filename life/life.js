@@ -425,8 +425,6 @@
 			selector = selector + ',' + cellSelector +'.n' + arguments[i]
 		}
 		
-		console.log(selector);
-		
 		return function hasNeighbours ($selection) {
 			return $selection
 				.filter(selector)

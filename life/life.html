@@ -371,8 +371,6 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
       <span class="nx">selector</span> <span class="o">=</span> <span class="nx">selector</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nx">cellSelector</span> <span class="o">+</span><span class="s1">&#39;.n&#39;</span> <span class="o">+</span> <span class="nx">arguments</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
     <span class="p">}</span>
     
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">selector</span><span class="p">);</span>
-    
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasNeighbours</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">$selection</span>
         <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">selector</span><span class="p">)</span>
