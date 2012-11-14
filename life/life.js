@@ -76,10 +76,12 @@
 	    $tbody = $('table tbody'),
 		  SIZE   = 16,
 		  iterating = false,
-		  incrementNeighbourCountBy = incrementNeighbourCount,
-		  incrementLeftRightCountBy = incrementLeftRightCount,
 			resetNeighbourCount = resetCount('n'),
-			resetLeftRightCount = resetCount('lr');
+			resetLeftRightCount = resetCount('lr'),
+			cellSelector = '.cell',
+			aliveSelector = '.alive',
+			oneLeftRightNeighbourSelector = '.lr1',
+			twoLeftRightNeighboursSelector = '.lr2';
 	
 	// ## Set the page up
 
@@ -96,7 +98,7 @@
 	function stepForwardOneGeneration () {
 		
 		// Starting with every cell...
-		$('.cell')
+		$(cellSelector)
 	
 			// ### Counting Neighbours
 			//
@@ -144,14 +146,14 @@
 			//
 			// We fnish with jQuery's `.end` to "pop the stack" and return to the original
 			// unfiltered selection.
-			.select(hasOnLeftOrRight('.alive'))
+			.select(hasOnLeftOrRight(aliveSelector))
 				.tap(incrementNeighbourCount(1))
 				.tap(incrementLeftRightCount(1))
 				.end()
 		
 			// and if they have a `.alive` to the left AND right, we increment their 
 			// neighbour count by two.
-			.select(hasOnLeftAndRight('.alive'))
+			.select(hasOnLeftAndRight(aliveSelector))
 				.tap(incrementNeighbourCount(2))
 				.tap(incrementLeftRightCount(2))
 				.end()
@@ -171,10 +173,10 @@
 			//     |   | ? |   |
 			//     |   |   |   |
 			//     +---+---+---+
-			.select(hasAboveOrBelow('.alive'))
+			.select(hasAboveOrBelow(aliveSelector))
 				.tap(incrementNeighbourCount(1))
 				.end()
-			.select(hasAboveAndBelow('.alive'))
+			.select(hasAboveAndBelow(aliveSelector))
 				.tap(incrementNeighbourCount(2))
 				.end()
 		
@@ -197,10 +199,10 @@
 			//     |   |   |   |
 			//     |   |   |   |
 			//     +---+---+---+
-			.select(hasAboveOrBelow('.lr1'))
+			.select(hasAboveOrBelow(oneLeftRightNeighbourSelector))
 				.tap(incrementNeighbourCount(1))
 				.end()
-			.select(hasAboveOrBelow('.lr2'))
+			.select(hasAboveOrBelow(twoLeftRightNeighboursSelector))
 				.tap(incrementNeighbourCount(2))
 				.end()
 
@@ -221,7 +223,7 @@
 			//     |   |   | ? |
 			//     |   |   |   |
 			//     +---+---+---+
-			.select(hasAboveAndBelow('.lr1'))
+			.select(hasAboveAndBelow(oneLeftRightNeighbourSelector))
 				.tap(incrementNeighbourCount(2))
 				.end()
 
@@ -242,7 +244,7 @@
 			//     | ? |   | ? |
 			//     |   |   |   |
 			//     +---+---+---+
-		  .select(hasAboveAndBelow('.lr2'))
+		  .select(hasAboveAndBelow(twoLeftRightNeighboursSelector))
 				.tap(incrementNeighbourCount(4))
 				.end()
 		
@@ -253,18 +255,18 @@
 		
 		  // Any cell that is not alive and has exactly three neighbours
 		  // becomes alive
-			.filter('.n3:not(.alive)')
-				.addClass('alive', 1000, 'easeInSine')
+			.select(willBirth)
+				.tap(animateBirths)
 				.end()
 				
 			// Any cell that is alive and does not have two or three nighbours
 			// dies
-			.filter('.alive:not(.n2,.n3)')
-				.removeClass('alive', 1000, 'easeInSine')
+			.select(willDie)
+				.tap(animateDeaths)
 				.end()
 			
 			// That's it, remove the neighbour counts.
-			.removeClass('n0 n1 n2 n3 n4 n5 n6 n7 n8');
+			.tap(resetNeighbourCount)
 			
 	}
 	
@@ -300,7 +302,7 @@
 				}
 			});
 		$tbody
-			.on('click', '.cell', function (event) {
+			.on('click', cellSelector, function (event) {
 				$(event.currentTarget)
 					.toggleClass("alive")
 			})
@@ -311,15 +313,15 @@
 	function hasOnLeft (clazz) {
 		return function hasOnLeft ($selection) {
 			return $selection
-				.filter('.cell'+clazz+' + .cell')
+				.filter(cellSelector + clazz + ' + ' + cellSelector)
 		}
 	}
 	
 	function hasOnRight (clazz) {
 		return function hasOnRight ($selection) {
 			return $selection
-				.next('.cell.alive')
-					.prev('.cell')
+				.next(cellSelector + aliveSelector)
+					.prev(cellSelector)
 		}
 	}
 	
@@ -352,7 +354,7 @@
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
 				$result = $result.add(
-					$('.cell'+clazz)
+					$(cellSelector+clazz)
 						.into(cellsInColumnByIndex(columnIndex))
 							.parent()
 								.next('tr')
@@ -373,7 +375,7 @@
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
 				$result = $result.add(
-					$('.cell'+clazz)
+					$(cellSelector+clazz)
 						.into(cellsInColumnByIndex(columnIndex))
 							.parent()
 								.prev('tr')
@@ -411,8 +413,31 @@
 	function cellsInColumnByIndex (index) {
 		return function cellsInColumnByIndex ($selection) {
 			return $selection
-				.filter('.cell:nth-child('+index+')')
+				.filter(cellSelector + ':nth-child('+index+')')
 		}
+	}
+	
+	return function hasNeighbours () {
+		var clazzes = reduce.map(function (acc, number) {
+			return acc + '.n' + number
+		}, cellSelector);
+		
+		return function hasNeighbours ($selection) {
+			return selection
+				.filter(clazzes)
+		}
+	}
+	
+	function willBirth ($selection) {
+		return $selection
+			.not(aliveSelector)
+				.into(hasNeighbours(3))
+	}
+	
+	function willDie ($selection) {
+		return $selection
+			.filter(aliveSelector)
+				.into(hasNeighbours(2,3))
 	}
 	
 	// ## Side-Effectful Operations
@@ -447,6 +472,16 @@
 				)
 				.addClass(prefix + '0')
 		}
+	}
+	
+	function animateBirths ($selection) {
+		$selection
+			.addClass('alive', 1000, 'easeInSine')
+	}
+	
+	function animateDeaths ($selection) {
+		$selection
+			.removeClass('alive', 1000, 'easeInSine')
 	}
 	
 	// ## Debug
