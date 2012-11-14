@@ -425,7 +425,7 @@
 		}, cellSelector);
 		
 		return function hasNeighbours ($selection) {
-			return selection
+			return $selection
 				.filter(clazzes)
 		}
 	}
