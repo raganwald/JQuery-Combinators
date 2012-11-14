@@ -364,9 +364,12 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
   <span class="p">}</span>
   
   <span class="kd">function</span> <span class="nx">hasNeighbours</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">clazzes</span> <span class="o">=</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">acc</span><span class="p">,</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">acc</span> <span class="o">+</span> <span class="s1">&#39;.n&#39;</span> <span class="o">+</span> <span class="nx">number</span>
-    <span class="p">},</span> <span class="nx">cellSelector</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">clazzes</span> <span class="o">=</span> <span class="nx">cellSelector</span><span class="p">,</span>
+        <span class="nx">i</span><span class="p">;</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">arguments</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">clazzes</span> <span class="o">=</span> <span class="nx">clazzes</span> <span class="o">+</span> <span class="s1">&#39;.n&#39;</span> <span class="o">+</span> <span class="nx">number</span>
+    <span class="p">}</span>
     
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasNeighbours</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">$selection</span>

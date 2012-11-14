@@ -418,9 +418,12 @@
 	}
 	
 	function hasNeighbours () {
-		var clazzes = arguments.reduce(function (acc, number) {
-			return acc + '.n' + number
-		}, cellSelector);
+		var clazzes = cellSelector,
+		    i;
+		
+		for (i = 0; i < arguments.length; i++) {
+			clazzes = clazzes + '.n' + number
+		}
 		
 		return function hasNeighbours ($selection) {
 			return $selection
