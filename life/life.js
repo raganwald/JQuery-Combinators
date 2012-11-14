@@ -420,7 +420,7 @@
 	}
 	
 	function hasNeighbours () {
-		var clazzes = reduce.map(function (acc, number) {
+		var clazzes = arguments.reduce(function (acc, number) {
 			return acc + '.n' + number
 		}, cellSelector);
 		
