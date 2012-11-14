@@ -418,11 +418,11 @@
 	}
 	
 	function hasNeighbours () {
-		var clazzes = cellSelector,
+		var clazzes = cellSelector + '.n' + arguments[0],
 		    i;
 		
-		for (i = 0; i < arguments.length; i++) {
-			clazzes = clazzes + '.n' + arguments[i]
+		for (i = 1; i < arguments.length; i++) {
+			clazzes = clazzes + ',' + cellSelector +'.n' + arguments[i]
 		}
 		
 		return function hasNeighbours ($selection) {
