@@ -1,13 +1,13 @@
-<!DOCTYPE html>  <html> <head>   <title>life.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="decombinatored.html">                 decombinatored.js               </a>                                           <a class="source" href="life.html">                 life.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               life.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h1>Conway's Game of Life</h1>
+<!DOCTYPE html>  <html> <head>   <title>decombinatored.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="decombinatored.html">                 decombinatored.js               </a>                                           <a class="source" href="life.html">                 life.js               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               decombinatored.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h1>Conway's Game of Life</h1>
 
-<h2>Combinators Implementation</h2>
+<h2>Standard Implementation</h2>
 
 <p>With <a href="http://raganwald.github.com/JQuery-Combinators">jQuery Combinators</a>, you can write your own application logic
 using exactly the same fluent style that jQuery's methods use, creating a single, consistent
 and easy-to-read style for your jQuery-powered JavaScript or CoffeeScript.</p>
 
 <p>This toy implementation of <a href="https://en.wikipedia.org/wiki/Conway's_Game_of_Life">Life</a> was written to demonstrate fluent application logic. You can
-try it <strong><a href="./index.html">here</a></strong>. Click to toggle any cell between alive and dead. Press return
+try it <strong><a href="./standard.html">here</a></strong>. Click to toggle any cell between alive and dead. Press return
 to advance a generation.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>Introduction</h2>
 
 <p>jQuery is a general-purpose library that provides a number of browser-specific functions. Its core
@@ -82,7 +82,7 @@ an affordance-free UI.</p>             </td>             <td class="code">      
   </pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h2>The core algorithm</h2>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>This is the core algorithm for iterating the Life Universe.
 It is one continuous fluid jQuery expression, starting with a
 selection of every cell</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">stepForwardOneGeneration</span> <span class="p">()</span> <span class="p">{</span>
-    </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Starting with every cell...</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">$</span><span class="p">(</span><span class="nx">cellSelector</span><span class="p">)</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Starting with every cell...</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">allCells</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">cellSelector</span><span class="p">)</span>
   </pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <h3>Counting Neighbours</h3>
 
 <p>Most of the work we're going to do is counting neighbours.
@@ -93,7 +93,7 @@ how to streamline complex operations, but if you ever want to
 write a fast life engine, start with good data structures.</p>
 
 <p>We'll encode the number of neighbours in a class, from <code>n0</code>
-(zero neighbours) to <code>n8</code> (eight neighbours).</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">resetNeighbourCount</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>First, we're going to count the neighbours to the left and the right
+(zero neighbours) to <code>n8</code> (eight neighbours).</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">resetNeighbourCount</span><span class="p">(</span><span class="nx">allCells</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>First, we're going to count the neighbours to the left and the right
 of every cell. In addition to encoding the result from <code>n0</code> though <code>n2</code>, 
 we'll also encode the result in one of three classes,
 <code>lr0</code>, <code>lr1</code>, and <code>lr2</code>. This will be useful later for counting
@@ -112,7 +112,7 @@ diagonal neighbours.</p>
 |   |   |   |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">resetLeftRightCount</span><span class="p">)</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">resetLeftRightCount</span><span class="p">(</span><span class="nx">allCells</span><span class="p">);</span>
     </pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Here's our first use of <code>.select</code>. It passes the selection to a function
 that is understood to apply a filter. It has the special property of 
 treating the filter as atomic, so if that function applies several filters adn/or
@@ -124,15 +124,15 @@ but always return the selection. We use that to implement operations,
 such as incrementing the left-right neighbour cont by one.</p>
 
 <p>We fnish with jQuery's <code>.end</code> to "pop the stack" and return to the original
-unfiltered selection.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeftOrRight</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementLeftRightCount</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+unfiltered selection.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">selectionWithAliveOnLeftOrRight</span> <span class="o">=</span> <span class="nx">hasOnLeftOrRight</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">);</span>
+    
+    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="nx">selectionWithAliveOnLeftOrRight</span><span class="p">);</span>
+    <span class="nx">incrementLeftRightCount</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="nx">selectionWithAliveOnLeftOrRight</span><span class="p">);</span>
     </pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>and if they have a <code>.alive</code> to the left AND right, we increment their 
-neighbour count by two.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasOnLeftAndRight</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementLeftRightCount</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+neighbour count by two.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="kd">var</span> <span class="nx">selectionWithAliveOnLeftAndRight</span> <span class="o">=</span> <span class="nx">hasOnLeftAndRight</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">);</span>
+    
+    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nx">selectionWithAliveOnLeftAndRight</span><span class="p">);</span>
+    <span class="nx">incrementLeftRightCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span><span class="nx">selectionWithAliveOnLeftAndRight</span><span class="p">);</span>
     </pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Now we count whether each cell has one or two vertical neighbours.</p>
 
 <pre><code>+---+---+---+
@@ -148,12 +148,12 @@ neighbour count by two.</p>             </td>             <td class="code">     
 |   | ? |   |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span>
+      <span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span>
+    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span>
+      <span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span>
     </pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Observation:</p>
 
 <p>If a cell above or below us has one horizontal neighbour,
@@ -173,12 +173,12 @@ horizontal neighbours, we must have two diagonal neighbours.</p>
 |   |   |   |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="nx">oneLeftRightNeighbourSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="nx">twoLeftRightNeighboursSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>And therefore, if the cells both above and below us
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span>
+      <span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="nx">oneLeftRightNeighbourSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span>
+    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span>
+      <span class="nx">hasAboveOrBelow</span><span class="p">(</span><span class="nx">twoLeftRightNeighboursSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>And therefore, if the cells both above and below us
 have one horizontal neighbour, we must have two
 diagonal neighbours</p>
 
@@ -195,9 +195,9 @@ diagonal neighbours</p>
 |   |   | ? |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="nx">oneLeftRightNeighbourSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>And finally, if the cells both above and below us
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">2</span><span class="p">)(</span>
+      <span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="nx">oneLeftRightNeighbourSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>And finally, if the cells both above and below us
 have two horizontal neighbours, we must have four
 diagonal neighbours</p>
 
@@ -214,19 +214,19 @@ diagonal neighbours</p>
 | ? |   | ? |
 |   |   |   |
 +---+---+---+
-</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="nx">twoLeftRightNeighboursSelector</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-    </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>We can now discard the <code>lr</code> classes</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">resetLeftRightCount</span><span class="p">)</span>
-    </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h3>Implementing Life's Rules</h3>             </td>             <td class="code">               <div class="highlight"><pre>    </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Any cell that is not alive and has exactly three neighbours
-becomes alive</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">willBeBorn</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">animateBirths</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">incrementNeighbourCount</span><span class="p">(</span><span class="mi">4</span><span class="p">)(</span>
+      <span class="nx">hasAboveAndBelow</span><span class="p">(</span><span class="nx">twoLeftRightNeighboursSelector</span><span class="p">)(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>We can now discard the <code>lr</code> classes</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">resetLeftRightCount</span><span class="p">(</span><span class="nx">allCells</span><span class="p">);</span>
+    </pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h3>Implementing Life's Rules</h3>             </td>             <td class="code">               <div class="highlight"><pre>  </pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>Any cell that is not alive and has exactly three neighbours
+becomes alive</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">animateBirths</span><span class="p">(</span>
+      <span class="nx">willBeBorn</span><span class="p">(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span>
         </pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>Any cell that is alive and does not have two or three nighbours
-dies</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">willDie</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">animateDeaths</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">end</span><span class="p">()</span>
-      </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>That's it, remove the neighbour counts.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="p">.</span><span class="nx">tap</span><span class="p">(</span><span class="nx">resetNeighbourCount</span><span class="p">)</span>
+dies</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">animateDeaths</span><span class="p">(</span>
+      <span class="nx">willDie</span><span class="p">(</span><span class="nx">allCells</span><span class="p">)</span>
+    <span class="p">);</span>
+      </pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>That's it, remove the neighbour counts.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">resetNeighbourCount</span><span class="p">(</span><span class="nx">allCells</span><span class="p">)</span>
       
   <span class="p">}</span>
   </pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <h2>Setup Functions</h2>             </td>             <td class="code">               <div class="highlight"><pre>  </pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>Build the table dynamically. No real reason for this except to
@@ -280,8 +280,8 @@ shrinks.</p>             </td>             <td class="code">               <div 
 for filters, <code>.into</code> works just fine and is slightly faster if you don't
 need to preserve atomicity for use with <code>.end()</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftOrRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">));</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span><span class="nx">$selection</span><span class="p">),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span><span class="nx">$selection</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$a</span>
         <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
@@ -291,9 +291,9 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
   
   <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasOnLeftAndRight</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">$selection</span>
-        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
-          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
+      <span class="k">return</span> <span class="nx">hasOnRight</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span>
+        <span class="nx">hasOnLeft</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span><span class="nx">$selection</span><span class="p">)</span>
+      <span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -305,13 +305,15 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
     
       <span class="k">for</span> <span class="p">(</span><span class="nx">columnIndex</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">columnIndex</span> <span class="o">&lt;=</span> <span class="nx">SIZE</span><span class="p">;</span> <span class="nx">columnIndex</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$result</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
-          <span class="nx">$</span><span class="p">(</span><span class="nx">cellSelector</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
-            <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
+          <span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">)(</span>
+            <span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">)(</span>
+              <span class="nx">$</span><span class="p">(</span><span class="nx">cellSelector</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
+            <span class="p">)</span>
               <span class="p">.</span><span class="nx">parent</span><span class="p">()</span>
                 <span class="p">.</span><span class="nx">next</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
                   <span class="p">.</span><span class="nx">children</span><span class="p">()</span>
-                    <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
-                      <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$selection</span><span class="p">)</span>
+          <span class="p">)</span>
+            <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$selection</span><span class="p">)</span>
         <span class="p">)</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">$result</span><span class="p">;</span>
@@ -326,13 +328,15 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
     
       <span class="k">for</span> <span class="p">(</span><span class="nx">columnIndex</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">columnIndex</span> <span class="o">&lt;=</span> <span class="nx">SIZE</span><span class="p">;</span> <span class="nx">columnIndex</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">$result</span> <span class="o">=</span> <span class="nx">$result</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span>
-          <span class="nx">$</span><span class="p">(</span><span class="nx">cellSelector</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
-            <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
+          <span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">)(</span>
+            <span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">)(</span>
+              <span class="nx">$</span><span class="p">(</span><span class="nx">cellSelector</span><span class="o">+</span><span class="nx">clazz</span><span class="p">)</span>
+            <span class="p">)</span>
               <span class="p">.</span><span class="nx">parent</span><span class="p">()</span>
                 <span class="p">.</span><span class="nx">prev</span><span class="p">(</span><span class="s1">&#39;tr&#39;</span><span class="p">)</span>
                   <span class="p">.</span><span class="nx">children</span><span class="p">()</span>
-                    <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">cellsInColumnByIndex</span><span class="p">(</span><span class="nx">columnIndex</span><span class="p">))</span>
-                      <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$selection</span><span class="p">)</span>
+          <span class="p">)</span>
+            <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">$selection</span><span class="p">)</span>
         <span class="p">)</span>
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">$result</span><span class="p">;</span>
@@ -341,8 +345,8 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
   
   <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveOrBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)),</span>
-          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">$selection</span><span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">));</span>
+      <span class="kd">var</span> <span class="nx">$a</span> <span class="o">=</span> <span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span><span class="nx">$selection</span><span class="p">),</span>
+          <span class="nx">$b</span> <span class="o">=</span> <span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span><span class="nx">$selection</span><span class="p">);</span>
       
       <span class="k">return</span> <span class="nx">$a</span>
         <span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">$b</span><span class="p">)</span>
@@ -352,9 +356,9 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
   
   <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">clazz</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="kd">function</span> <span class="nx">hasAboveAndBelow</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="nx">$selection</span>
-        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
-          <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">))</span>
+      <span class="k">return</span> <span class="nx">hasBelow</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span>
+        <span class="nx">hasAbove</span><span class="p">(</span><span class="nx">clazz</span><span class="p">)(</span><span class="nx">$selection</span><span class="p">)</span>
+      <span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
   
@@ -380,15 +384,17 @@ need to preserve atomicity for use with <code>.end()</code>.</p>             </t
   <span class="p">}</span>
   
   <span class="kd">function</span> <span class="nx">willBeBorn</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">$selection</span>
-      <span class="p">.</span><span class="nx">not</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasNeighbours</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nx">hasNeighbours</span><span class="p">(</span><span class="mi">3</span><span class="p">)(</span>
+      <span class="nx">$selection</span>
+        <span class="p">.</span><span class="nx">not</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)</span>
+    <span class="p">)</span>
   <span class="p">}</span>
   
   <span class="kd">function</span> <span class="nx">willDie</span> <span class="p">(</span><span class="nx">$selection</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">$selection</span>
-      <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)</span>
-        <span class="p">.</span><span class="nx">into</span><span class="p">(</span><span class="nx">hasNeighbours</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nx">hasNeighbours</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)(</span>
+      <span class="nx">$selection</span>
+        <span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">aliveSelector</span><span class="p">)</span>
+    <span class="p">)</span>
   <span class="p">}</span>
   </pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>Side-Effectful Operations</h2>             </td>             <td class="code">               <div class="highlight"><pre>  
   <span class="kd">function</span> <span class="nx">incrementCountBy</span> <span class="p">(</span><span class="nx">prefix</span><span class="p">)</span> <span class="p">{</span>

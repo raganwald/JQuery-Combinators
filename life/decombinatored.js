@@ -1,5 +1,5 @@
 // # Conway's Game of Life
-// ## Combinators Implementation
+// ## Standard Implementation
 //
 // With [jQuery Combinators][jc], you can write your own application logic
 // using exactly the same fluent style that jQuery's methods use, creating a single, consistent
@@ -11,7 +11,7 @@
 //
 // [Life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
 // [jc]: http://raganwald.github.com/JQuery-Combinators
-// [here]: ./index.html
+// [here]: ./standard.html
 
 // ## Introduction
 //
@@ -101,175 +101,175 @@
 	function stepForwardOneGeneration () {
 		
 		// Starting with every cell...
-		$(cellSelector)
+		var allCells = $(cellSelector)
 	
-			// ### Counting Neighbours
-			//
-			// Most of the work we're going to do is counting neighbours.
-			// This is a little complicated because the tree structure of an
-			// HTML table is not a direct fit with the 2D structure of the
-			// Life Universe. That's actually a good excuse to demonstrate
-			// how to streamline complex operations, but if you ever want to
-			// write a fast life engine, start with good data structures.
-			//
-			// We'll encode the number of neighbours in a class, from `n0`
-			// (zero neighbours) to `n8` (eight neighbours).
-			.tap(resetNeighbourCount)
+		// ### Counting Neighbours
+		//
+		// Most of the work we're going to do is counting neighbours.
+		// This is a little complicated because the tree structure of an
+		// HTML table is not a direct fit with the 2D structure of the
+		// Life Universe. That's actually a good excuse to demonstrate
+		// how to streamline complex operations, but if you ever want to
+		// write a fast life engine, start with good data structures.
+		//
+		// We'll encode the number of neighbours in a class, from `n0`
+		// (zero neighbours) to `n8` (eight neighbours).
+		resetNeighbourCount(allCells);
 
-			// First, we're going to count the neighbours to the left and the right
-			// of every cell. In addition to encoding the result from `n0` though `n2`, 
-			// we'll also encode the result in one of three classes,
-			// `lr0`, `lr1`, and `lr2`. This will be useful later for counting
-			// diagonal neighbours.
-			//
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   |   |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     | ? | X | ? |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   |   |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			.tap(resetLeftRightCount)
+		// First, we're going to count the neighbours to the left and the right
+		// of every cell. In addition to encoding the result from `n0` though `n2`, 
+		// we'll also encode the result in one of three classes,
+		// `lr0`, `lr1`, and `lr2`. This will be useful later for counting
+		// diagonal neighbours.
+		//
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   |   |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     | ? | X | ? |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   |   |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		resetLeftRightCount(allCells);
 		
-			// Here's our first use of `.select`. It passes the selection to a function
-			// that is understood to apply a filter. It has the special property of 
-			// treating the filter as atomic, so if that function applies several filters adn/or
-			// traverses, `.end()` will still work just as if this was a single call to jQuery's
-			// `.filter` method.
-			//
-			// We also have our first use of `.tap`. It passes the selection to a function
-			// but always return the selection. We use that to implement operations,
-			// such as incrementing the left-right neighbour cont by one.
-			//
-			// We fnish with jQuery's `.end` to "pop the stack" and return to the original
-			// unfiltered selection.
-			.select(hasOnLeftOrRight(aliveSelector))
-				.tap(incrementNeighbourCount(1))
-				.tap(incrementLeftRightCount(1))
-				.end()
+		// Here's our first use of `.select`. It passes the selection to a function
+		// that is understood to apply a filter. It has the special property of 
+		// treating the filter as atomic, so if that function applies several filters adn/or
+		// traverses, `.end()` will still work just as if this was a single call to jQuery's
+		// `.filter` method.
+		//
+		// We also have our first use of `.tap`. It passes the selection to a function
+		// but always return the selection. We use that to implement operations,
+		// such as incrementing the left-right neighbour cont by one.
+		//
+		// We fnish with jQuery's `.end` to "pop the stack" and return to the original
+		// unfiltered selection.
+		var selectionWithAliveOnLeftOrRight = hasOnLeftOrRight(aliveSelector)(allCells);
 		
-			// and if they have a `.alive` to the left AND right, we increment their 
-			// neighbour count by two.
-			.select(hasOnLeftAndRight(aliveSelector))
-				.tap(incrementNeighbourCount(2))
-				.tap(incrementLeftRightCount(2))
-				.end()
+		incrementNeighbourCount(1)(selectionWithAliveOnLeftOrRight);
+		incrementLeftRightCount(1)(selectionWithAliveOnLeftOrRight);
 		
-			// Now we count whether each cell has one or two vertical neighbours.
-			//
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   | ? |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   | X |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   | ? |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			.select(hasAboveOrBelow(aliveSelector))
-				.tap(incrementNeighbourCount(1))
-				.end()
-			.select(hasAboveAndBelow(aliveSelector))
-				.tap(incrementNeighbourCount(2))
-				.end()
+		// and if they have a `.alive` to the left AND right, we increment their 
+		// neighbour count by two.
+		var selectionWithAliveOnLeftAndRight = hasOnLeftAndRight(aliveSelector)(allCells);
 		
-		  // Observation:
-		  //
-		  // If a cell above or below us has one horizontal neighbour,
-		  // we must have one diagonal neighbour. If it has two
-		  // horizontal neighbours, we must have two diagonal neighbours.
-			//
-			//     +---+---+---+
-			//     |   |   |   |
-			//     | ? |   | ? |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   | X |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   |   |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			.select(hasAboveOrBelow(oneLeftRightNeighbourSelector))
-				.tap(incrementNeighbourCount(1))
-				.end()
-			.select(hasAboveOrBelow(twoLeftRightNeighboursSelector))
-				.tap(incrementNeighbourCount(2))
-				.end()
+		incrementNeighbourCount(2)(selectionWithAliveOnLeftAndRight);
+		incrementLeftRightCount(2)(selectionWithAliveOnLeftAndRight);
+		
+		// Now we count whether each cell has one or two vertical neighbours.
+		//
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   | ? |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   | X |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   | ? |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		incrementNeighbourCount(1)(
+			hasAboveOrBelow(aliveSelector)(allCells)
+		);
+		incrementNeighbourCount(2)(
+			hasAboveAndBelow(aliveSelector)(allCells)
+		);
+		
+	  // Observation:
+	  //
+	  // If a cell above or below us has one horizontal neighbour,
+	  // we must have one diagonal neighbour. If it has two
+	  // horizontal neighbours, we must have two diagonal neighbours.
+		//
+		//     +---+---+---+
+		//     |   |   |   |
+		//     | ? |   | ? |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   | X |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   |   |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		incrementNeighbourCount(1)(
+			hasAboveOrBelow(oneLeftRightNeighbourSelector)(allCells)
+		);
+		incrementNeighbourCount(2)(
+			hasAboveOrBelow(twoLeftRightNeighboursSelector)(allCells)
+		);
 
-			// And therefore, if the cells both above and below us
-			// have one horizontal neighbour, we must have two
-			// diagonal neighbours
-			//
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   |   | ? |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   | X |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   |   | ? |
-			//     |   |   |   |
-			//     +---+---+---+
-			.select(hasAboveAndBelow(oneLeftRightNeighbourSelector))
-				.tap(incrementNeighbourCount(2))
-				.end()
+		// And therefore, if the cells both above and below us
+		// have one horizontal neighbour, we must have two
+		// diagonal neighbours
+		//
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   |   | ? |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   | X |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   |   | ? |
+		//     |   |   |   |
+		//     +---+---+---+
+		incrementNeighbourCount(2)(
+			hasAboveAndBelow(oneLeftRightNeighbourSelector)(allCells)
+		);
 
-			// And finally, if the cells both above and below us
-			// have two horizontal neighbours, we must have four
-			// diagonal neighbours
-			//
-			//     +---+---+---+
-			//     |   |   |   |
-			//     | ? |   | ? |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     |   | X |   |
-			//     |   |   |   |
-			//     +---+---+---+
-			//     |   |   |   |
-			//     | ? |   | ? |
-			//     |   |   |   |
-			//     +---+---+---+
-		  .select(hasAboveAndBelow(twoLeftRightNeighboursSelector))
-				.tap(incrementNeighbourCount(4))
-				.end()
+		// And finally, if the cells both above and below us
+		// have two horizontal neighbours, we must have four
+		// diagonal neighbours
+		//
+		//     +---+---+---+
+		//     |   |   |   |
+		//     | ? |   | ? |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     |   | X |   |
+		//     |   |   |   |
+		//     +---+---+---+
+		//     |   |   |   |
+		//     | ? |   | ? |
+		//     |   |   |   |
+		//     +---+---+---+
+		incrementNeighbourCount(4)(
+			hasAboveAndBelow(twoLeftRightNeighboursSelector)(allCells)
+		);
 		
-		  // We can now discard the `lr` classes
-			.tap(resetLeftRightCount)
+	  // We can now discard the `lr` classes
+		resetLeftRightCount(allCells);
 		
-		  // ### Implementing Life's Rules
-		
-		  // Any cell that is not alive and has exactly three neighbours
-		  // becomes alive
-			.select(willBeBorn)
-				.tap(animateBirths)
-				.end()
+	  // ### Implementing Life's Rules
+	
+	  // Any cell that is not alive and has exactly three neighbours
+	  // becomes alive
+		animateBirths(
+			willBeBorn(allCells)
+		);
 				
-			// Any cell that is alive and does not have two or three nighbours
-			// dies
-			.select(willDie)
-				.tap(animateDeaths)
-				.end()
+		// Any cell that is alive and does not have two or three nighbours
+		// dies
+		animateDeaths(
+			willDie(allCells)
+		);
 			
-			// That's it, remove the neighbour counts.
-			.tap(resetNeighbourCount)
+		// That's it, remove the neighbour counts.
+		resetNeighbourCount(allCells)
 			
 	}
 	
@@ -333,8 +333,8 @@
 	// need to preserve atomicity for use with `.end()`.
 	function hasOnLeftOrRight (clazz) {
 		return function hasOnLeftOrRight ($selection) {
-			var $a = $selection.into(hasOnLeft(clazz)),
-			    $b = $selection.into(hasOnRight(clazz));
+			var $a = hasOnLeft(clazz)($selection),
+			    $b = hasOnRight(clazz)($selection);
 			
 			return $a
 				.add($b)
@@ -344,9 +344,9 @@
 	
 	function hasOnLeftAndRight (clazz) {
 		return function hasOnLeftAndRight ($selection) {
-			return $selection
-				.into(hasOnLeft(clazz))
-					.into(hasOnRight(clazz))
+			return hasOnRight(clazz)(
+				hasOnLeft(clazz)($selection)
+			)
 		}
 	}
 	
@@ -358,13 +358,15 @@
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
 				$result = $result.add(
-					$(cellSelector+clazz)
-						.into(cellsInColumnByIndex(columnIndex))
+					cellsInColumnByIndex(columnIndex)(
+						cellsInColumnByIndex(columnIndex)(
+							$(cellSelector+clazz)
+						)
 							.parent()
 								.next('tr')
 									.children()
-										.into(cellsInColumnByIndex(columnIndex))
-											.filter($selection)
+					)
+						.filter($selection)
 				)
 			}
 			return $result;
@@ -379,13 +381,15 @@
 		
 			for (columnIndex = 1; columnIndex <= SIZE; columnIndex++) {
 				$result = $result.add(
-					$(cellSelector+clazz)
-						.into(cellsInColumnByIndex(columnIndex))
+					cellsInColumnByIndex(columnIndex)(
+						cellsInColumnByIndex(columnIndex)(
+							$(cellSelector+clazz)
+						)
 							.parent()
 								.prev('tr')
 									.children()
-										.into(cellsInColumnByIndex(columnIndex))
-											.filter($selection)
+					)
+						.filter($selection)
 				)
 			}
 			return $result;
@@ -394,8 +398,8 @@
 	
 	function hasAboveOrBelow (clazz) {
 		return function hasAboveOrBelow ($selection) {
-			var $a = $selection.into(hasAbove(clazz)),
-			    $b = $selection.into(hasBelow(clazz));
+			var $a = hasAbove(clazz)($selection),
+			    $b = hasBelow(clazz)($selection);
 			
 			return $a
 				.add($b)
@@ -405,9 +409,9 @@
 	
 	function hasAboveAndBelow (clazz) {
 		return function hasAboveAndBelow ($selection) {
-			return $selection
-				.into(hasAbove(clazz))
-					.into(hasBelow(clazz))
+			return hasBelow(clazz)(
+				hasAbove(clazz)($selection)
+			)
 		}
 	}
 	
@@ -433,15 +437,17 @@
 	}
 	
 	function willBeBorn ($selection) {
-		return $selection
-			.not(aliveSelector)
-				.into(hasNeighbours(3))
+		return hasNeighbours(3)(
+			$selection
+				.not(aliveSelector)
+		)
 	}
 	
 	function willDie ($selection) {
-		return $selection
-			.filter(aliveSelector)
-				.into(hasNeighbours(0,1,4,5,6,7,8))
+		return hasNeighbours(0,1,4,5,6,7,8)(
+			$selection
+				.filter(aliveSelector)
+		)
 	}
 	
 	// ## Side-Effectful Operations
