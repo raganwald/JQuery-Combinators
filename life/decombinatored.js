@@ -1,75 +1,7 @@
 // # Conway's Game of Life
 // ## Standard Implementation
 //
-// With [jQuery Combinators][jc], you can write your own application logic
-// using exactly the same fluent style that jQuery's methods use, creating a single, consistent
-// and easy-to-read style for your jQuery-powered JavaScript or CoffeeScript.
-//
-// This toy implementation of [Life] was written to demonstrate fluent application logic. You can
-// try it **[here]**. Click to toggle any cell between alive and dead. Press return
-// to advance a generation.
-//
-// [Life]: https://en.wikipedia.org/wiki/Conway's_Game_of_Life
-// [jc]: http://raganwald.github.com/JQuery-Combinators
-// [here]: ./standard.html
-
-// ## Introduction
-//
-// jQuery is a general-purpose library that provides a number of browser-specific functions. Its core
-// functionality manipulates selections of DOM entities in a fluent style. There are four fundamental
-// operations on a selection:
-//
-// 1. Filter a selection, analagous to `Array.prototype.filter`. Special case:
-//    Create a selection by filtering the entire document.
-// 2. Traverse from a selection to another selection, e.g. from a selection of DOM elements
-//    to their children.
-// 3. Perform some operation on the selection for side effects, e.g. making the selected
-//    elements visible.
-// 4. Map from a selection to some other value or values, e.g from a selction to an integer
-//    representing the size of the selection.
-
-// jQuery provides a large number of methods that fit into one of these four categories, and
-// when you use its built-in methods, you can write idomatic, "fluent" jQuery code. But when you
-// incorporate your own logic, you have to break out of the fluent style.
-//
-// ### Life, the Universe, and jQuery
-//
-// Let's say we are writing an implementation of Life (because we are). And let's
-// say that we are representing the Life Universe as a table, with one `td` for each cell in the
-// universe (because we did). And live cells have the class `alive`.
-//
-// If we wanted to select all the cells to the right of a live cell, we could do this in jQuery:
-// `$('td.alive + td')`. And if we wanted to filter a selection of cells to thoe that were to the
-// right of a live cell, we could write `$selection.filter('td.alive + td')`.
-//
-// So far, so good. Yay jQuery. But how do we name this relationship? How do we DRY up our code?
-// And how do we do it in a way that naturally fits in with jQuery's style?
-//
-// ### jQuery Combinators
-//
-// jQuery Combinators to the rescue. jQuery Combinators provides a method called `.into` that turns
-// any function into a traverse, and `.select` that turns any function into a filter. So we can write:
-//
-//     function liveOnTheLeft ($selection) {
-//       return $selection
-//         .filter('td.alive + td')
-//     }
-//
-// And now, whenever we want to use this, we can write `$selection.select(liveOnTheLeft)` just as
-// if `liveOnTheLeft` was a built-in jQuery filter. There's also `.tap` for turning your own
-// functions into methods that perform an operation and return the selection, just like jQuery's 
-// built-in operations.
-
-// ## Disclaimer
-//
-// For instructive purposes, this implementation of Life is gratuitously coded to do everything 
-// with operations on DOM elements rather than working at lightening speed on a model and then 
-// displaying the result in a canvas or on the DOM. This is not intended as anything except
-// an excuse to pack as many DOM operations as possible in the space provided.
-//
-// ---
-
-// # The Code
+// This is the companion code to [life.js](./life.html).
 	
 ;jQuery(function life() {
 		
@@ -137,18 +69,6 @@
 		//     +---+---+---+
 		resetLeftRightCount(allCells);
 		
-		// Here's our first use of `.select`. It passes the selection to a function
-		// that is understood to apply a filter. It has the special property of 
-		// treating the filter as atomic, so if that function applies several filters adn/or
-		// traverses, `.end()` will still work just as if this was a single call to jQuery's
-		// `.filter` method.
-		//
-		// We also have our first use of `.tap`. It passes the selection to a function
-		// but always return the selection. We use that to implement operations,
-		// such as incrementing the left-right neighbour cont by one.
-		//
-		// We fnish with jQuery's `.end` to "pop the stack" and return to the original
-		// unfiltered selection.
 		var selectionWithAliveOnLeftOrRight = hasOnLeftOrRight(aliveSelector)(allCells);
 		
 		incrementNeighbourCount(1)(selectionWithAliveOnLeftOrRight);
@@ -328,9 +248,6 @@
 		}
 	}
 	
-	// Nota Bene: Even though jQuery Combinators provides `.select` specifically
-	// for filters, `.into` works just fine and is slightly faster if you don't
-	// need to preserve atomicity for use with `.end()`.
 	function hasOnLeftOrRight (clazz) {
 		return function hasOnLeftOrRight ($selection) {
 			var $a = hasOnLeft(clazz)($selection),

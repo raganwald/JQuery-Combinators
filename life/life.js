@@ -27,11 +27,11 @@
 //    elements visible.
 // 4. Map from a selection to some other value or values, e.g from a selction to an integer
 //    representing the size of the selection.
-
+//
 // jQuery provides a large number of methods that fit into one of these four categories, and
 // when you use its built-in methods, you can write idomatic, "fluent" jQuery code. But when you
 // incorporate your own logic, you have to break out of the fluent style.
-//
+
 // ### Life, the Universe, and jQuery
 //
 // Let's say we are writing an implementation of Life (because we are). And let's
@@ -44,21 +44,28 @@
 //
 // So far, so good. Yay jQuery. But how do we name this relationship? How do we DRY up our code?
 // And how do we do it in a way that naturally fits in with jQuery's style?
-//
+
 // ### jQuery Combinators
 //
 // jQuery Combinators to the rescue. jQuery Combinators provides a method called `.into` that turns
 // any function into a traverse, and `.select` that turns any function into a filter. So we can write:
 //
-//     function liveOnTheLeft ($selection) {
+//     function hasAliveOnLeft ($selection) {
 //       return $selection
 //         .filter('td.alive + td')
 //     }
 //
-// And now, whenever we want to use this, we can write `$selection.select(liveOnTheLeft)` just as
-// if `liveOnTheLeft` was a built-in jQuery filter. There's also `.tap` for turning your own
+// And now, whenever we want to use this, we can write `$selection.select(hasAliveOnLeft)` just as
+// if `hasAliveOnLeft` was a built-in jQuery filter. There's also `.tap` for turning your own
 // functions into methods that perform an operation and return the selection, just like jQuery's 
 // built-in operations.
+//
+// ## The Standard Implementation
+//
+// Compare and contrast this code to the "standard" implementation [here](http:./decombinatored.js).
+// A full explanation of the benefits of jQuery Combinators is in [this brief essay][essay].
+//
+// [essay]: https://github.com/raganwald/homoiconic/blob/master/2012/11/refactoring_to_jquery_combinators.md#refactoring-to-jquery-combinators
 
 // ## Disclaimer
 //
